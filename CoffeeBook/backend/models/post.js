@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             this.belongsTo(models.User, { foreignKey: { name: 'userId', allowNull: false }, onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'postUser' });
             this.belongsToMany(models.User, { through: models.PostComment, foreignKey: 'postId', as: 'postUserComment' });
-            this.belongsToMany(models.Category, { through: 'category_posts', foreignKey: 'postId', as: 'postCategory' });
+            this.belongsToMany(models.Category, { through: models.CategoryPost, foreignKey: 'postId', as: 'postCategory' });
         }
     }
     Post.init(
@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            mediaLink: DataTypes.STRING,
+            mediaLink: {
+                type: DataTypes.STRING,
+                defaultValue: 'https://picsum.photos/300/300',
+                allowNull: false,
+            },
             content: {
                 type: DataTypes.TEXT,
                 allowNull: false,

@@ -13,6 +13,13 @@ module.exports = (sequelize, DataTypes) => {
     }
     PostComment.init(
         {
+            id: {
+                type: DataTypes.INTEGER,
+                field: 'id',
+                autoIncrement: true,
+                primaryKey: true,
+                allowNull: false,
+            },
             comment: DataTypes.TEXT,
             hasAbuse: {
                 type: DataTypes.BOOLEAN,

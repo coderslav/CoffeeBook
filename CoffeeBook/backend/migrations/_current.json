@@ -28,6 +28,51 @@
             },
             "indexes": []
         },
+        "category_posts": {
+            "tableName": "category_posts",
+            "schema": {
+                "id": {
+                    "field": "id",
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "categoryId": {
+                    "unique": "category_posts_postId_categoryId_unique",
+                    "references": {
+                        "model": "categories",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "categoryId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "postId": {
+                    "unique": "category_posts_postId_categoryId_unique",
+                    "references": {
+                        "model": "posts",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "postId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
         "posts": {
             "tableName": "posts",
             "schema": {
@@ -44,6 +89,10 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "mediaLink": {
+                    "defaultValue": {
+                        "value": "https://picsum.photos/300/300"
+                    },
+                    "allowNull": false,
                     "field": "mediaLink",
                     "seqType": "Sequelize.STRING"
                 },
@@ -94,6 +143,13 @@
         "post_comments": {
             "tableName": "post_comments",
             "schema": {
+                "id": {
+                    "field": "id",
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "comment": {
                     "field": "comment",
                     "seqType": "Sequelize.TEXT"
@@ -127,7 +183,7 @@
                     "seqType": "Sequelize.DATE"
                 },
                 "postId": {
-                    "primaryKey": true,
+                    "unique": "post_comments_userId_postId_unique",
                     "references": {
                         "model": "posts",
                         "key": "id"
@@ -138,7 +194,7 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "userId": {
-                    "primaryKey": true,
+                    "unique": "post_comments_userId_postId_unique",
                     "references": {
                         "model": "users",
                         "key": "id"
@@ -186,10 +242,15 @@
                     "defaultValue": {
                         "value": false
                     },
+                    "allowNull": false,
                     "field": "isAdmin",
                     "seqType": "Sequelize.BOOLEAN"
                 },
                 "profilePicturePath": {
+                    "defaultValue": {
+                        "value": "https://picsum.photos/300/300"
+                    },
+                    "allowNull": false,
                     "field": "profilePicturePath",
                     "seqType": "Sequelize.STRING"
                 },
@@ -209,6 +270,13 @@
         "user_categories": {
             "tableName": "user_categories",
             "schema": {
+                "id": {
+                    "field": "id",
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -220,7 +288,7 @@
                     "seqType": "Sequelize.DATE"
                 },
                 "categoryId": {
-                    "primaryKey": true,
+                    "unique": "user_categories_userId_categoryId_unique",
                     "references": {
                         "model": "categories",
                         "key": "id"
@@ -231,7 +299,7 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "userId": {
-                    "primaryKey": true,
+                    "unique": "user_categories_userId_categoryId_unique",
                     "references": {
                         "model": "users",
                         "key": "id"
@@ -244,47 +312,16 @@
             },
             "indexes": []
         },
-        "category_posts": {
-            "tableName": "category_posts",
-            "schema": {
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "categoryId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "categories",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "categoryId",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "postId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "posts",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "postId",
-                    "seqType": "Sequelize.INTEGER"
-                }
-            },
-            "indexes": []
-        },
         "user_friends": {
             "tableName": "user_friends",
             "schema": {
+                "id": {
+                    "field": "id",
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -296,7 +333,7 @@
                     "seqType": "Sequelize.DATE"
                 },
                 "userId": {
-                    "primaryKey": true,
+                    "unique": "user_friends_friendId_userId_unique",
                     "references": {
                         "model": "users",
                         "key": "id"
@@ -307,7 +344,7 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "friendId": {
-                    "primaryKey": true,
+                    "unique": "user_friends_friendId_userId_unique",
                     "references": {
                         "model": "users",
                         "key": "id"

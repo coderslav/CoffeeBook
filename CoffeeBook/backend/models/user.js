@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             this.hasMany(models.Post, { foreignKey: { name: 'userId', allowNull: false }, onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'userPost' });
-            this.belongsToMany(models.User, { through: 'user_friends', foreignKey: 'userId', as: 'userFriend' });
-            this.belongsToMany(models.User, { through: 'user_friends', foreignKey: 'friendId', as: 'friendUser ' });
-            this.belongsToMany(models.Category, { through: 'user_categories', foreignKey: 'userId', as: 'userCategory' });
+            this.belongsToMany(models.User, { through: models.UserFriend, foreignKey: 'userId', as: 'userFriend' });
+            this.belongsToMany(models.User, { through: models.UserFriend, foreignKey: 'friendId', as: 'friendUser ' });
+            this.belongsToMany(models.Category, { through: models.UserCategory, foreignKey: 'userId', as: 'userCategory' });
             this.belongsToMany(models.Post, { through: models.PostComment, foreignKey: 'userId', as: 'userPostComment' });
         }
     }
@@ -38,8 +38,13 @@ module.exports = (sequelize, DataTypes) => {
             isAdmin: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false,
+                allowNull: false,
             },
-            profilePicturePath: DataTypes.STRING,
+            profilePicturePath: {
+                type: DataTypes.STRING,
+                defaultValue: 'https://picsum.photos/300/300',
+                allowNull: false,
+            },
         },
         {
             sequelize,
