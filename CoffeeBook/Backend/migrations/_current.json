@@ -105,6 +105,17 @@
                     "field": "hasAbuse",
                     "seqType": "Sequelize.BOOLEAN"
                 },
+                "vote": {
+                    "field": "vote",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "favorited": {
+                    "defaultValue": {
+                        "value": false
+                    },
+                    "field": "favorited",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -126,7 +137,7 @@
                     "field": "postId",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "UserId": {
+                "userId": {
                     "primaryKey": true,
                     "references": {
                         "model": "users",
@@ -134,7 +145,7 @@
                     },
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
-                    "field": "UserId",
+                    "field": "userId",
                     "seqType": "Sequelize.INTEGER"
                 }
             },
@@ -195,58 +206,6 @@
             },
             "indexes": []
         },
-        "user_votes": {
-            "tableName": "user_votes",
-            "schema": {
-                "vote": {
-                    "defaultValue": {
-                        "value": 0
-                    },
-                    "field": "vote",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "favorited": {
-                    "defaultValue": {
-                        "value": false
-                    },
-                    "field": "favorited",
-                    "seqType": "Sequelize.BOOLEAN"
-                },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "postId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "posts",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "postId",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "UserId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "users",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "UserId",
-                    "seqType": "Sequelize.INTEGER"
-                }
-            },
-            "indexes": []
-        },
         "user_categories": {
             "tableName": "user_categories",
             "schema": {
@@ -271,7 +230,7 @@
                     "field": "categoryId",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "UserId": {
+                "userId": {
                     "primaryKey": true,
                     "references": {
                         "model": "users",
@@ -279,7 +238,7 @@
                     },
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
-                    "field": "UserId",
+                    "field": "userId",
                     "seqType": "Sequelize.INTEGER"
                 }
             },
@@ -336,7 +295,7 @@
                     "field": "updatedAt",
                     "seqType": "Sequelize.DATE"
                 },
-                "UserId": {
+                "userId": {
                     "primaryKey": true,
                     "references": {
                         "model": "users",
@@ -344,7 +303,18 @@
                     },
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
-                    "field": "UserId",
+                    "field": "userId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "friendId": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "friendId",
                     "seqType": "Sequelize.INTEGER"
                 }
             },

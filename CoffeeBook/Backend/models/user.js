@@ -10,11 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             this.hasMany(models.Post, { foreignKey: { name: 'userId', allowNull: false }, onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'userPost' });
-            this.belongsToMany(models.User, { through: 'user_friends', uniqueKey: 'userId', as: 'userFriend' });
-            this.belongsToMany(models.User, { through: 'user_friends', uniqueKey: 'friendId', as: 'friendUser ' });
-            this.belongsToMany(models.Category, { through: 'user_categories', uniqueKey: 'userId', as: 'userCategory' });
-            this.belongsToMany(models.Post, { through: models.UserVote, uniqueKey: 'userId', as: 'userPostVote' });
-            this.belongsToMany(models.Post, { through: models.PostComment, uniqueKey: 'userId', as: 'userPostComment' });
+            this.belongsToMany(models.User, { through: 'user_friends', foreignKey: 'userId', as: 'userFriend' });
+            this.belongsToMany(models.User, { through: 'user_friends', foreignKey: 'friendId', as: 'friendUser ' });
+            this.belongsToMany(models.Category, { through: 'user_categories', foreignKey: 'userId', as: 'userCategory' });
+            this.belongsToMany(models.Post, { through: models.PostComment, foreignKey: 'userId', as: 'userPostComment' });
         }
     }
     User.init(

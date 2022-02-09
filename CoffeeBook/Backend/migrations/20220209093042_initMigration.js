@@ -7,17 +7,16 @@ const Sequelize = require("sequelize");
  * createTable() => "users", deps: []
  * createTable() => "posts", deps: [users]
  * createTable() => "post_comments", deps: [posts, users]
- * createTable() => "user_votes", deps: [posts, users]
  * createTable() => "user_categories", deps: [categories, users]
  * createTable() => "category_posts", deps: [categories, posts]
- * createTable() => "user_friends", deps: [users]
+ * createTable() => "user_friends", deps: [users, users]
  *
  */
 
 const info = {
   revision: 1,
   name: "initMigration",
-  created: "2022-02-08T16:37:00.919Z",
+  created: "2022-02-09T09:30:42.485Z",
   comment: "",
 };
 
@@ -160,42 +159,7 @@ const migrationCommands = (transaction) => [
           field: "hasAbuse",
           defaultValue: false,
         },
-        createdAt: {
-          type: Sequelize.DATE,
-          field: "createdAt",
-          allowNull: false,
-        },
-        updatedAt: {
-          type: Sequelize.DATE,
-          field: "updatedAt",
-          allowNull: false,
-        },
-        postId: {
-          type: Sequelize.INTEGER,
-          field: "postId",
-          onUpdate: "CASCADE",
-          onDelete: "CASCADE",
-          references: { model: "posts", key: "id" },
-          primaryKey: true,
-        },
-        UserId: {
-          type: Sequelize.INTEGER,
-          field: "UserId",
-          onUpdate: "CASCADE",
-          onDelete: "CASCADE",
-          references: { model: "users", key: "id" },
-          primaryKey: true,
-        },
-      },
-      { transaction },
-    ],
-  },
-  {
-    fn: "createTable",
-    params: [
-      "user_votes",
-      {
-        vote: { type: Sequelize.INTEGER, field: "vote", defaultValue: 0 },
+        vote: { type: Sequelize.INTEGER, field: "vote" },
         favorited: {
           type: Sequelize.BOOLEAN,
           field: "favorited",
@@ -219,9 +183,9 @@ const migrationCommands = (transaction) => [
           references: { model: "posts", key: "id" },
           primaryKey: true,
         },
-        UserId: {
+        userId: {
           type: Sequelize.INTEGER,
-          field: "UserId",
+          field: "userId",
           onUpdate: "CASCADE",
           onDelete: "CASCADE",
           references: { model: "users", key: "id" },
@@ -254,9 +218,9 @@ const migrationCommands = (transaction) => [
           references: { model: "categories", key: "id" },
           primaryKey: true,
         },
-        UserId: {
+        userId: {
           type: Sequelize.INTEGER,
-          field: "UserId",
+          field: "userId",
           onUpdate: "CASCADE",
           onDelete: "CASCADE",
           references: { model: "users", key: "id" },
@@ -316,9 +280,17 @@ const migrationCommands = (transaction) => [
           field: "updatedAt",
           allowNull: false,
         },
-        UserId: {
+        userId: {
           type: Sequelize.INTEGER,
-          field: "UserId",
+          field: "userId",
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
+          references: { model: "users", key: "id" },
+          primaryKey: true,
+        },
+        friendId: {
+          type: Sequelize.INTEGER,
+          field: "friendId",
           onUpdate: "CASCADE",
           onDelete: "CASCADE",
           references: { model: "users", key: "id" },
@@ -346,10 +318,6 @@ const rollbackCommands = (transaction) => [
   {
     fn: "dropTable",
     params: ["users", { transaction }],
-  },
-  {
-    fn: "dropTable",
-    params: ["user_votes", { transaction }],
   },
   {
     fn: "dropTable",
