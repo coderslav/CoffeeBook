@@ -321,8 +321,8 @@
             "indexes": []
         }
     },
-    "path": "/home/matrice-ecole/EDU/RBean/tlucas-tremplin-full-stack-projet-capstone/CoffeeBook/Backend/migrations/_current.json",
-    "backupPath": "/home/matrice-ecole/EDU/RBean/tlucas-tremplin-full-stack-projet-capstone/CoffeeBook/Backend/migrations/_current_bak.json",
+    "path": "/home/matrice-ecole/EDU/RBean/tlucas-tremplin-full-stack-projet-capstone/CoffeeBook/backend/migrations/_current.json",
+    "backupPath": "/home/matrice-ecole/EDU/RBean/tlucas-tremplin-full-stack-projet-capstone/CoffeeBook/backend/migrations/_current_bak.json",
     "exists": false,
     "revision": 1
 }
