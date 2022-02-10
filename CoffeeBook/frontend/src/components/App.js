@@ -1,4 +1,8 @@
 import React from 'react';
+import Home from './home/Home';
+import Login from './login/Login';
+import Subscribe from './subscribe/Subscribe';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
@@ -7,7 +11,20 @@ class App extends React.Component {
     }
 
     render() {
-        return <div>Hello World!</div>;
+        return (
+            <>
+                {this.state.user ? <Redirect to={{ pathname: '/' }} /> : <Redirect to={{ pathname: '/login' }} />}
+                <Route exact path='/'>
+                    <Home />
+                </Route>
+                <Route path='/login'>
+                    <Login />
+                </Route>
+                <Route path='/subscribe'>
+                    <Subscribe />
+                </Route>
+            </>
+        );
     }
 }
 
