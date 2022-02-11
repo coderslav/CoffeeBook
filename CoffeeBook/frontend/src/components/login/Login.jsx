@@ -29,7 +29,7 @@ export default class HomeSubscribe extends Component {
                                     <hr className='my-4' />
 
                                     <button className='btn btn-lg btn-success' type='submit'>
-                                        Créer un nuveau compte
+                                        Créer un nouveau compte
                                     </button>
                                 </div>
                             </div>

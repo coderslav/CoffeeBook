@@ -3,9 +3,9 @@ import styles from './Contact.module.css'
 
 export default function Contact() {
     const contactList = [
-        { id: 1, firstName: "David", lastName: "Renard", imgProfile: "./img/fille" },
-        { id: 2, firstName: "laurent", lastName: "sdcs", imgProfile: "./img/fille" },
-        { id: 3, firstName: "dsijfod", lastName: "sdfsd", imgProfile: "./img/fille" },
+        { id: 1, firstName: "David", lastName: "Renard", imgProfile: "../assets/imgfille.jpg" },
+        { id: 2, firstName: "laurent", lastName: "sdcs", imgProfile: "./imgfille.jpg" },
+        { id: 3, firstName: "dsijfod", lastName: "sdfsd", imgProfile: "./imgfille.jpg" },
     ];
     const contact = contactList.map(
         elem => {

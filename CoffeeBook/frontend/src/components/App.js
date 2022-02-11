@@ -1,9 +1,15 @@
 import React from "react";
-import { SearchCategory } from "./category/SearchCategory";
-import Home from './home/Home';
-import Login from './login/Login';
-import Subscribe from './subscribe/Subscribe';
-import { Route, Redirect } from 'react-router-dom';
+import SearchCategory from "./category/SearchCategory";
+import CategoryFilter from "./category/CategoryFilter";
+import MyCategories from "./category/MyCategories";
+import Contact from "./contact/Contact";
+import HeaderProfile from "./profileSection/HeaderProfile";
+import Post from "./postSection/Post";
+import LogoCB from "./elements/LogoCB";
+import Home from "./home/Home";
+import Login from "./login/Login";
+import Subscribe from "./subscribe/Subscribe";
+import { Route, Redirect } from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
@@ -13,27 +19,40 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="containers d-flex">
-        <div className="row align-items-start">
-          <div className="col">
-            <div>Category</div>
-            <div>{SearchCategory}</div>
+      <div className="containers">
+        <Route exact path="/">
+          <div className="row ">
+            <div className="col-3 bg-secondary maxHeight">
+              <LogoCB />
+              <SearchCategory />
+              <CategoryFilter />
+              <MyCategories />
+            </div>
+
+            <div className="col-6">
+              <div>
+                <HeaderProfile />
+              </div>
+              <div className="sectionPost">
+                <Post />
+              </div>
+              {/* {this.state.user ? (
+                <Redirect to={{ pathname: "/" }} />
+            ) : (
+              <Redirect to={{ pathname: "/login" }} />
+            )} */}
+            </div>
+            <div className="col-3 bg-secondary">
+              <div>
+                <Contact />
+              </div>
+            </div>
           </div>
-          <div className="col">
-          {this.state.user ? <Redirect to={{ pathname: '/' }} /> : <Redirect to={{ pathname: '/login' }} />}
-            <div>Main</div>
-          </div>
-          <div className="col">
-            <div>Contact</div>
-          </div>
-        </div>
-        <Route exact path='/'>
-          <Home />
         </Route>
-        <Route path='/login'>
+        <Route path="/login">
           <Login />
         </Route>
-        <Route path='/subscribe'>
+        <Route path="/subscribe">
           <Subscribe />
         </Route>
       </div>
