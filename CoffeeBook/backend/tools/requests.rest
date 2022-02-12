@@ -1,0 +1,13 @@
+# Install extension "REST Client" of VS Code before use this:
+GET http://localhost:3000/
+###
+GET http://localhost:3000/latestposts
+###
+POST http://localhost:3000/getuserposts
+content-type: application/json
+
+{
+    "userId": 1
+}
+###
+POST http://localhost:3000/subscribe

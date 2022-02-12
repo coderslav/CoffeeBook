@@ -3,6 +3,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index');
+const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
+const subscribeRouter = require('./routes/subscribe');
 
 const app = express();
 
@@ -10,15 +13,17 @@ const app = express();
 app.use(express.static('public'));
 
 // ajouter les middleware pour la lecture des cookies et du corps des requetes post
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cookieParser('secret'));
 
-// use router files 
-app.use("/", indexRouter);
+// use router files
+app.use('/', indexRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/subscribe', subscribeRouter);
 
 // start the server
 app.listen(process.env.PORT || 3000, () => {
-    console.log(`CoffeeBook running on ${process.env.PORT || 3000}`)
+    console.log(`CoffeeBook running on ${process.env.PORT || 3000}`);
 });
-    
-
