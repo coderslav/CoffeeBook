@@ -1,4 +1,5 @@
 'use strict';
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
@@ -21,8 +22,8 @@ let all_friends = [];
 for (let i = 0; i < 100; i++) {
     for (let j = 0; j < big_friend_list[i].length; j++) {
         all_friends.push({
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            createdAt: '1900-03-03',
+            updatedAt: '1900-03-03',
             userId: i + 1,
             friendId: big_friend_list[i][j],
         });

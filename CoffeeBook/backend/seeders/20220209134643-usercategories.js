@@ -18,8 +18,8 @@ module.exports = {
                 categoryUsers.push({
                     userId: i + 1,
                     categoryId: randomCategory,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: '1900-02-02',
+                    updatedAt: '1900-02-02',
                 });
                 categoryRandomUser.push(randomCategory);
             }

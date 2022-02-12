@@ -8,12 +8,13 @@ let posts = [];
 for (let i = 0; i < 100; i++) {
     let randomAmountOfPosts = getRandomInt(10) + 1;
     for (let j = 0; j < randomAmountOfPosts; j++) {
+        const randomDate = casual.date();
         posts.push({
             title: casual.title,
             content: casual.text,
             userId: i + 1,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            createdAt: randomDate,
+            updatedAt: randomDate,
         });
     }
 }
