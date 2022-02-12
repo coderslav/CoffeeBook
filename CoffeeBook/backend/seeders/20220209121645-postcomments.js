@@ -1,5 +1,4 @@
 'use strict';
-
 const casual = require('casual');
 
 function getRandomInt(max) {
@@ -24,6 +23,10 @@ module.exports = {
             type: queryInterface.sequelize.QueryTypes.SELECT,
         });
         for (let i = 0; i < posts.length; i++) {
+            let yearCounter = 1;
+            let initDate = posts[i].createdAt.toLocaleDateString('ko-KR').replaceAll('.', '');
+            let dateArr = initDate.split(' ');
+
             let commentAmount = getRandomInt(10) + 1;
             for (let j = 0; j < commentAmount; j++) {
                 let randomcommenter = getRandomInt(100) + 1;
@@ -33,6 +36,8 @@ module.exports = {
                 let vote = getRandomVote();
                 let favorited = trueOrFalse();
                 let hasAbuse = trueOrFalse();
+                dateArr[0] = parseInt(dateArr[0]) + yearCounter;
+                let newDate = dateArr.join('-');
                 commenters.push({
                     comment: casual.text,
                     vote: vote,
@@ -40,9 +45,10 @@ module.exports = {
                     hasAbuse: hasAbuse,
                     postId: i + 1,
                     userId: randomcommenter,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: newDate,
+                    updatedAt: newDate,
                 });
+                yearCounter++;
             }
         }
         return queryInterface.bulkInsert('post_comments', commenters, {});

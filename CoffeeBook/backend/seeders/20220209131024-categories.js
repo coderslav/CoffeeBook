@@ -1,10 +1,13 @@
 'use strict';
 const casual = require('casual');
-const cats = [...Array(100)].map((category) => ({
-    name: casual.title,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-}));
+
+const cats = [...Array(100)].map((category) => {
+    return {
+        name: casual.title,
+        createdAt: '1899-01-01',
+        updatedAt: '1899-01-01',
+    };
+});
 
 module.exports = {
     async up(queryInterface, Sequelize) {
