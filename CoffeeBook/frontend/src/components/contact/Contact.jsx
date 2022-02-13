@@ -11,7 +11,7 @@ export default function Contact() {
         elem => {
             return (
                 <div key={elem.id}>
-                    <img src={elem.imgProfile} alt="" />
+                    <img src={elem.imgProfile} alt="img_profil" />
                     <span>{elem.firstName} {elem.lastName}</span>
                     <img src="icons/bootstrap-fill.svg" width="25" height="25" alt="Bootstrap"></img>
                 </div>
