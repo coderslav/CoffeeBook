@@ -4,8 +4,9 @@ import CategoryFilter from "./category/CategoryFilter";
 import MyCategories from "./category/MyCategories";
 import Contact from "./contact/Contact";
 import HeaderProfile from "./profileSection/HeaderProfile";
-import Post from "./postSection/Post";
-import LogoCB from "./elements/LogoCB";
+import Post from "./postSection/post/Post";
+import Actualites from "./postSection/actualites/Actualites";
+import LogoCB from "./logo/LogoCB";
 import Home from "./home/Home";
 import Login from "./login/Login";
 import Subscribe from "./subscribe/Subscribe";
@@ -19,22 +20,24 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="containers">
+      <div className="container">
         <Route exact path="/">
           <div className="row ">
-            <div className="col-3 bg-secondary maxHeight">
+            <div className="col-3 category maxHeight">
               <LogoCB />
               <SearchCategory />
               <CategoryFilter />
               <MyCategories />
             </div>
-
-            <div className="col-6">
-              <div>
+            <div className="col-6 profilSection">
+              <div className="headerProfil">
                 <HeaderProfile />
               </div>
               <div className="sectionPost">
                 <Post />
+              </div>
+              <div>
+                <Actualites/>
               </div>
               {/* {this.state.user ? (
                 <Redirect to={{ pathname: "/" }} />
@@ -42,10 +45,8 @@ class App extends React.Component {
               <Redirect to={{ pathname: "/login" }} />
             )} */}
             </div>
-            <div className="col-3 bg-secondary">
-              <div>
+            <div className="col-3 contact d-flex flex-row justify-content-center align-items-start ">
                 <Contact />
-              </div>
             </div>
           </div>
         </Route>

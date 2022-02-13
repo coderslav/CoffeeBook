@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import styles from './HeaderProfile.module.css'
+import './headerProfile.css'
+import man from '../../assets/man.jpg'
+import { BsFillGearFill } from "react-icons/bs";
 
 export class HeaderProfile extends Component {
     render() {
         return (
-            <div className={styles.imgProfile}>
-                <img className={styles.imgProfile} src="https://st4.depositphotos.com/5479794/20515/i/450/depositphotos_205157168-stock-photo-front-view-young-male-adult.jpg" alt="" width="90px" height="120px" />
+            <div className="imgProfile">
+                <img className="imgProfile" src={man} alt="" width="70px" height="70px" />
                 <span>Prénom</span>
                 <span>Nom</span>
-                <i class="bi bi-gear-fill"></i>
+                <div className='parameter'><BsFillGearFill/></div>
             </div>
         )
     }

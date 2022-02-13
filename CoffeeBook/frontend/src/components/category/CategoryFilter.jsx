@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './category.css'
 
 export default class CategoryFilter extends Component {
     render() {
