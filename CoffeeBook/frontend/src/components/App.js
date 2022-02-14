@@ -168,7 +168,6 @@ class App extends React.Component {
           <div className="row ">
             <div className="col-3 category maxHeight">
               <LogoCB />
-              <SearchCategory />
               <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} getCategoryPosts={this.getCategoryPosts}/>
               <MyCategories />
             </div>

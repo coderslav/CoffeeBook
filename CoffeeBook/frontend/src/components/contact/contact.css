@@ -1,25 +1,38 @@
-.titreContact{
-   font-size: 25px;
-   font-family: 'Roboto', sans-serif;
-   display: block;
-   margin-top: 25px;
-   margin-bottom: 10px;
+.titreContact {
+  font-size: 25px;
+  font-family: "Roboto", sans-serif;
+  display: block;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
-.blocContacts{
-   padding-left:10px;
-   margin-bottom:10px;
+.blocContacts {
+  padding-left: 10px;
+  margin-bottom: 10px;
 }
-.blocContacts img{
-   width:40px;
-   height:40px;
-   border-radius: 50%;
-   margin-right:10px;  
+.blocContacts img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
-.blocContacts p, .blocContacts div{  
-   margin-right:10px; 
-   margin-bottom:0; 
+.blocContacts p,
+.blocContacts div {
+  margin-right: 10px;
+  margin-bottom: 0;
 }
-.minusIcon{
-   /*background-color: white;*/
-   color:white;
+.minusIcon {
+  color: white;
+}
+.btnSeeMore,
+.bntEdit {
+  border-radius: 6px;
+  border: none;
+  background-color: #1c1e21;
+  padding: 5px 12px;
+  color: #e4e6eb;
+  text-decoration: underline;
+}
+.btnSeeMore:hover,
+.bntEdit:hover {
+  background-color: rgb(57, 59, 61);
 }
