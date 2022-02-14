@@ -7,6 +7,7 @@ import HeaderProfile from "./profileSection/HeaderProfile";
 import Post from "./postSection/post/Post";
 import Actualites from "./postSection/actualites/Actualites";
 import LogoCB from "./logo/LogoCB";
+import CreatePost from "./postSection/createPost/CreatePost";
 import Home from "./home/Home";
 import Login from "./login/Login";
 import Subscribe from "./subscribe/Subscribe";
@@ -35,9 +36,10 @@ class App extends React.Component {
               </div>
               <div className="sectionPost">
                 <Post />
+                <CreatePost />
               </div>
               <div>
-                <Actualites/>
+                <Actualites />
               </div>
               {/* {this.state.user ? (
                 <Redirect to={{ pathname: "/" }} />
@@ -46,7 +48,7 @@ class App extends React.Component {
             )} */}
             </div>
             <div className="col-3 contact d-flex flex-row justify-content-center align-items-start ">
-                <Contact />
+              <Contact />
             </div>
           </div>
         </Route>
