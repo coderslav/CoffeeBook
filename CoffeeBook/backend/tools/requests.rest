@@ -1,0 +1,32 @@
+# Install extension "REST Client" of VS Code before use this:
+
+### Home page
+GET http://localhost:3000/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAzLCJmaXJzdE5hbWUiOiJUZXN0ZXIiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjQ0Nzk4NTA0LCJleHAiOjE2NDQ3OTg1MTl9.fvG15KpKmLXl7o6ErnHj-WSJltC-6fV7MmM5QteoFAU
+### Get Latest Posts
+GET http://localhost:3000/latestposts
+### Get Users Posts
+POST http://localhost:3000/getuserposts
+content-type: application/json
+
+{
+    "userId": 1
+}
+### Subscribe
+POST http://localhost:3000/subscribe
+content-type: application/json
+
+{
+    "email": "new@mail.com",
+    "password": "JustForTest123",
+    "firstName": "Tester",
+    "lastName": "Testerov"
+}
+### Login
+POST http://localhost:3000/login
+content-type: application/json
+
+{
+    "email": "new@mail.com",
+    "password": "JustForTest123"
+}
