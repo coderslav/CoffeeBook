@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -20,7 +22,7 @@ app.use(cors());
 // ajouter les middleware pour la lecture des cookies et du corps des requetes post
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser('secret'));
+app.use(cookieParser());
 
 // use router files
 app.use(JWTtokenCheck);
