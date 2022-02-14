@@ -1,9 +1,26 @@
-/* body {
-    background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(50, 38, 38, 1) 50%, rgba(111, 78, 55, 1) 100%);
-} */
+body {
+    color:#e4e6eb;
+    background-color: #1c1e21;
+}
 .maxHeight {
     height: 100vh;
 }
 .marginT {
     margin-top: 20px;
+}
+.category, .contact{
+  background-color: #1c1e21;
+  color:#e4e6eb;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+
+}
+.profilSection{
+  
+  background-color: #232527;
+}
+.headerProfil{
+  box-sizing: border-box;
+  height:120px;
+  color:#e4e6eb;  
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './category.css'
 
 export default class SearchCategory extends Component {
     render() {
@@ -6,7 +7,6 @@ export default class SearchCategory extends Component {
             <div className='container-fluid'>
                 <span>Rechercher une catégorie</span>
                 <input className='container-fluid' type="text" />
-
             </div>
         )
     }
