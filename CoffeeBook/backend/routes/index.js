@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { Post } = require('../models');
+const JWTtokenCheck = require('./middlewares/JWTtokenCheck');
 
-router.get('/', (req, res) => {
-    res.send(`Welcome to CoffeeBook ! \n`);
+router.get('/', JWTtokenCheck, (req, res) => {
+    req.user ? res.send(`Welcome to CoffeeBook ! \n`) : res.send('Login please before enter');
+    console.log(req.user);
 });
 
 router.get('/latestposts', async (req, res) => {

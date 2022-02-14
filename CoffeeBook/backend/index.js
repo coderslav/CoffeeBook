@@ -1,6 +1,5 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
@@ -13,8 +12,8 @@ const app = express();
 app.use(express.static('public'));
 
 // ajouter les middleware pour la lecture des cookies et du corps des requetes post
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cookieParser('secret'));
 
 // use router files
