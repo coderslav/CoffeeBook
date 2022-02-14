@@ -8,14 +8,20 @@ export default function BasicRating() {
 
    return (
       <Box sx={{'& > legend': { mt: 2 }}}>
-         <Typography component="legend">4</Typography>
-         <Rating
-            name="simple-controlled"
-            value={value}
-            onChange={(event, newValue) => {
-               setValue(newValue);
-            }}
-         />
+         <div className='d-flex justify-content-end mt-2'>
+            <div className='me-2'>
+               <Typography component="legend">Note : 4</Typography>
+            </div>
+            <div>
+               <Rating
+                  name="simple-controlled"
+                  value={value}
+                  onChange={(event, newValue) => {
+                     setValue(newValue);
+                  }}
+               />
+            </div>
+         </div>
       </Box>
    );
 }
