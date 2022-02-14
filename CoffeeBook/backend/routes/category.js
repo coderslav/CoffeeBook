@@ -1,54 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const { Category, User } = require("../models/index");
+const { Category, User } = require('../models/index');
 
-// Get all categories orderded by ascending name order
-router.get("/", async (req, res) => {
-    const categories = await Category.findAll({
-        attributes: ["id", "name"],
-        order: [
-            ["name", "ASC"]
-        ],
-        raw: true
-    });
-    res.status(200).send(categories);
+// Get all categories ordered by ascending name order
+router.post('/', async (req, res) => {
+    if (req.user) {
+        const categories = await Category.findAll({
+            attributes: ['id', 'name'],
+            order: [['name', 'ASC']],
+            raw: true,
+        });
+        res.status(200).send(categories);
+    } else {
+        res.status(401).send('Please login first');
+    }
 });
 
 // Create a new category by an Admin
-// TODO : add middleware to check that user is an Admin
-router.post("/new", async (req, res) => {
-    const { categoryName } = req.body;
-    const formatted =   categoryName.toLowerCase()[0].toUpperCase()
-                      + categoryName.toLowerCase().slice(1);
-    const checkNew = await Category.findOne({ 
-        where: {
-            name: formatted
-        }, 
-        raw: true
-    });
+router.post('/new', async (req, res) => {
+    if (req.user.isAdmin) {
+        const { categoryName } = req.body;
 
-    if (checkNew) {
-        res.status(200).send("Not Created. The category already exists.")
-    } else {
-        Category.create({
-            name: formatted
-        })
-        .then(cat => {
-           return Category.findAll({ 
-                attributes: ["id", "name"],
-                order: [
-                    ["name", "ASC"]
-                ],
-                raw: true 
-        }); 
-        })
-        .then(cats => {
-           res.status(200).send(cats); 
-        })
-        .catch(err => 
-            console.log(`Error while creating the category ${formatted}:`, err)
+        const [newCategory, created] = await Category.findOrCreate({ where: { name: categoryName }, raw: true });
+
+        if (!created) {
+            console.log(`Not Created. The category "${newCategory.name}" is already exists.`);
+        }
+        res.send(
+            await Category.findAll({
+                attributes: ['id', 'name'],
+                order: [['name', 'ASC']],
+                raw: true,
+            })
         );
+    } else {
+        res.status(401).send('Not allowed users. Login like Admin, please');
     }
-})
+});
 
 module.exports = router;

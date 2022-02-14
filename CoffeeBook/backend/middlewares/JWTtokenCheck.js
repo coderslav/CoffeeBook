@@ -1,5 +1,13 @@
 const jwt = require('jsonwebtoken');
 
+// If else skeleton for autorisation check
+
+// if (req.user) {
+//     // main logic
+// } else {
+//     res.status(401).send('Please login first');
+// }
+
 function JWTtokenCheck(req, res, next) {
     let token;
     const authHeader = req.headers['authorization'];
