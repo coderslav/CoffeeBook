@@ -1,7 +1,8 @@
 import React from 'react'
 import { BsPencilFill } from "react-icons/bs";
-import { AiOutlineHeart, AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 import Rating from '../rating/Rating'
+import ModalPost from '../../elements/ModalPost'
 import '../actualites/actualites.css'
 
 export default function PostActu() {
@@ -13,7 +14,7 @@ export default function PostActu() {
                 <div className="icones">
                     <BsPencilFill />
                     <AiOutlineHeart />
-                    <AiOutlinePlusCircle />
+                    <ModalPost />
                 </div>
             </div>
             <div className="main">

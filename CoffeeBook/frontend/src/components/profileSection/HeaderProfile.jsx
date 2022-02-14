@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './headerProfile.css'
 import man from '../../assets/man.jpg'
-import { BsFillGearFill } from "react-icons/bs";
+import Modal from '../elements/ModalParameterProfile'
 
 export class HeaderProfile extends Component {
     render() {
@@ -10,7 +10,7 @@ export class HeaderProfile extends Component {
                 <img className="imgProfile" src={man} alt="" width="70px" height="70px" />
                 <span>Prénom</span>
                 <span>Nom</span>
-                <div className='parameter'><BsFillGearFill/></div>
+                <div className='parameter'><Modal /></div>
             </div>
         )
     }
