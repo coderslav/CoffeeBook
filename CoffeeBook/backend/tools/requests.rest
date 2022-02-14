@@ -1,19 +1,56 @@
-# Install extension "REST Client" of VS Code before use this:
+# Install extension "REST Client" of VS Code before use this
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAyLCJmaXJzdE5hbWUiOiJBZG1pbiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NDg1NjYyNiwiZXhwIjoxNjQ0ODU3NTI2fQ.g0hX3Hgm8o6CPT-BvtM4sp9LdvaLnNuL_KbpGByYhzI
 
 ### Home page
-GET http://localhost:3000/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAzLCJmaXJzdE5hbWUiOiJUZXN0ZXIiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjQ0Nzk4NTA0LCJleHAiOjE2NDQ3OTg1MTl9.fvG15KpKmLXl7o6ErnHj-WSJltC-6fV7MmM5QteoFAU
+POST http://localhost:5000/
+Authorization: Bearer {{token}}
+
+### Get all categories ordered by ascending name order
+POST http://localhost:5000/categories
+Authorization: Bearer {{token}}
+### Create new Category (Just for Admins)
+POST http://localhost:5000/categories/new
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "categoryName": "Vincent Stories"
+}
+
+
+### Get all favorite categories of a user by descending addition date
+POST http://localhost:5000/user/100/categories
+Authorization: Bearer {{token}}
+### Add a favorite category to a user
+POST http://localhost:5000/user/100/category
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "categoryId": 3
+}
+### Remove a favorite category from a user
+DELETE http://localhost:5000/user/100/category/3
+Authorization: Bearer {{token}}
+
+
 ### Get Latest Posts
-GET http://localhost:3000/latestposts
+POST http://localhost:5000/latestposts
+Authorization: Bearer {{token}}
 ### Get Users Posts
-POST http://localhost:3000/getuserposts
+POST http://localhost:5000/getuserposts
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
     "userId": 1
 }
+
+
 ### Subscribe
-POST http://localhost:3000/subscribe
+POST http://localhost:5000/subscribe
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -23,10 +60,11 @@ content-type: application/json
     "lastName": "Testerov"
 }
 ### Login
-POST http://localhost:3000/login
+POST http://localhost:5000/login
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
-    "email": "new@mail.com",
-    "password": "JustForTest123"
+    "email": "admin@admin.com",
+    "password": "AdminPass"
 }
