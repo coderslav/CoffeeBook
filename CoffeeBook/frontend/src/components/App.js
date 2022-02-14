@@ -14,6 +14,8 @@ import Subscribe from "./subscribe/Subscribe";
 import { Route, Redirect } from "react-router-dom";
 import axios from "axios";
 
+const PORT = 5000;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -37,7 +39,7 @@ class App extends React.Component {
   // - "items" : posts by descending order of their creation date
   getLatest = async () => {
     try {
-        const latestReq = "http://localhost:3000/latestposts";
+        const latestReq = `http://localhost:${PORT}/latestposts`;
         const newPosts = await axios.post(latestReq);
         this.setState({
             posts: newPosts.data,
@@ -57,7 +59,7 @@ class App extends React.Component {
   // - "items" : posts by descending order of their average vote
   getBest = async () => {
     try {
-      const bestReq = 'http://localhost:3000/getbestposts';
+      const bestReq = `http://localhost:${PORT}/getbestposts`;
       const bestPosts = await axios.post(bestReq);
       this.setState({
           posts: bestPosts,
@@ -80,7 +82,7 @@ class App extends React.Component {
   //   creation date
   getCategoryPosts = async (e) => {
     const categoryId = e.target.value;
-    const catPosts = await axios.post('http://localhost:3000/getcategoryposts', { categoryId });
+    const catPosts = await axios.post(`http://localhost:${PORT}/getcategoryposts`, { categoryId });
     this.setState({
       posts: catPosts.items,
       news: false,
@@ -99,7 +101,7 @@ class App extends React.Component {
   //   of their creation date
   getContactPosts = async (e) => {
     const contactId = e.target.value;
-    const contactPosts = await axios.post('http://localhost:3000/getcontactposts', { contactId });
+    const contactPosts = await axios.post(`http://localhost:${PORT}/getcontactposts`, { contactId });
     this.setState({
       posts: contactPosts.items,
       news: false,
@@ -116,7 +118,7 @@ class App extends React.Component {
   // - 
   getPostsWithKeyword = async (e) => {
     const keyword = e.target.value;
-    const keywordPosts = await axios.post("http://localhost:3000/getpostswithkeyword", { keyword });
+    const keywordPosts = await axios.post(`http://localhost:${PORT}/getpostswithkeyword`, { keyword });
     this.setState({
       posts: keywordPosts,
       news: false,
@@ -142,7 +144,7 @@ class App extends React.Component {
     for (let [key, value] of newPostForm) {
       newPost[key] = value;
     }
-    const newPosts = await axios.post("http://localhost:3000/post/create", { newPost });
+    const newPosts = await axios.post(`http://localhost:${PORT}/post/create`, { newPost });
     this.setState({
       posts: newPosts,
       news: true,
