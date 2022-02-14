@@ -1,4 +1,5 @@
 import React from 'react'
+import SearchCategory from '../category/SearchCategory';
 import './contact.css'
 
 export default function Contact() {
@@ -7,7 +8,7 @@ export default function Contact() {
         { id: 2, firstName: "laurent", lastName: "sdcs", imgProfile: "./images/woman2.jpg" },
         { id: 3, firstName: "dsijfod", lastName: "sdfsd", imgProfile: "./images/man.jpg" },
     ];
-    
+
     const contact = contactList.map(
         elem => {
             return (
@@ -20,7 +21,7 @@ export default function Contact() {
                             <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
                         </svg>
                     </div>
-                    
+
                 </div>
             )
         }
@@ -29,7 +30,14 @@ export default function Contact() {
 
         <div className='d-flex flex-column'>
             <span className='titreContact'>Contacts</span>
-            <div>{contact}</div><i className="bi bi-dash-circle"></i>
+            <div>{contact}</div>
+            <div className=''>
+                <button className='btnSeeMore'>Voir plus</button>
+            </div>
+            <div className="editList">
+                <button className='bntEdit'>Editer la liste</button>
+            </div>
+            <SearchCategory title={"Chercher un contact"} placeholder={"contact"} />
         </div>
 
     )
