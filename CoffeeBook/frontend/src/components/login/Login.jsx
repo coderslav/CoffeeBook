@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+const PORT = 5000;
 
-export default class HomeSubscribe extends Component {
+export default class Login extends Component {
+
+    loginUser = async (e) => {
+        e.preventDefault();
+        const userInfo = {
+            email: e.target.email,
+            password: e.target.password
+        }
+        const connected = await axios.post(`http://localhost:${PORT}/login`, userInfo);
+        this.props.loggedUser({ userId: connected.userId, isAdmin: connected.isAdmin })
+    }  
+
     render() {
         return (
             <div className='vh-100'>
@@ -13,13 +26,13 @@ export default class HomeSubscribe extends Component {
                             </div>
                             <div className='card shadow-2-strong' style={{ borderRadius: '1rem' }}>
                                 <div className='card-body p-5 text-center'>
-                                    <form method='POST'>
+                                    <form method='POST' onSubmit={this.loginUser}>
                                         <div className='form-outline mb-4'>
-                                            <input type='email' placeholder='Email' id='typeEmailX-2' className='form-control form-control-lg' />
+                                            <input type='email' name="email" placeholder='Email' id='typeEmailX-2' className='form-control form-control-lg' />
                                         </div>
 
                                         <div className='form-outline mb-4'>
-                                            <input type='password' placeholder='Mot de pass' id='typePasswordX-2' className='form-control form-control-lg' />
+                                            <input type='password' ame="password" placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
                                         </div>
 
                                         <button className='btn btn-primary btn-lg btn-block' type='submit'>
@@ -28,7 +41,7 @@ export default class HomeSubscribe extends Component {
                                     </form>
                                     <hr className='my-4' />
 
-                                    <button className='btn btn-lg btn-success' type='submit'>
+                                    <button className='btn btn-lg btn-success' onClick={this.props.createUser}>
                                         Créer un nouveau compte
                                     </button>
                                 </div>

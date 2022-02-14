@@ -20,6 +20,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      newAccount: false,
       userId: 0,
       isAdmin: false,
       posts: [],
@@ -34,6 +35,21 @@ class App extends React.Component {
   }
 
   // METHODS passed as props to posts
+
+  // User has logged in
+  userHasLoggedIn = ({ userId, isAdmin }) => {
+    this.setState({ userId, isAdmin });
+  }
+
+  createNewUser = () => {
+    this.setState({ newAccount: true }, () => {
+      console.log("Subscribe screen is needed : ", this.state.newAccount);
+    });
+  }
+
+  newUserCreated = ({ userId }) => {
+    this.setState({ userId, newAccount: false });
+  }
 
   // Get the latest posts created in CoffeeBook
   // - "items" : posts by descending order of their creation date
@@ -163,39 +179,40 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <Route exact path="/">
-          <div className="row ">
-            <div className="col-3 category maxHeight">
-              <LogoCB />
-              <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} getCategoryPosts={this.getCategoryPosts}/>
-              <MyCategories />
-            </div>
-            <div className="col-6 profilSection">
-              <div className="headerProfil">
-                <HeaderProfile />
+      this.state.userId == 0 && !this.state.newAccount
+        ? <Login loggedUser={this.userHasLoggedIn} createUser={this.createNewUser}/>
+        : this.state.newAccount 
+        ? <Subscribe newUserCreated={this.newUserCreated} />
+        :  <div className="container">
+            <Route exact path="/">
+              <div className="row ">
+                <div className="col-3 category maxHeight">
+                  <LogoCB />
+                  <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} getCategoryPosts={this.getCategoryPosts}/>
+                  <MyCategories />
+                </div>
+                <div className="col-6 profilSection">
+                  <div className="headerProfil">
+                    <HeaderProfile />
+                  </div>
+                  <div className="sectionPost">
+                    <Post />
+                    <CreatePost saveNewPost={this.saveNewPost}/>
+                  </div>
+                  <div>
+                    <Actualites feedMessage={this.state.feedMessage} posts={this.state.posts}/>
+                  </div>
+                </div>
+                <div className="col-3 contact d-flex flex-row justify-content-center align-items-start ">
+                  <Contact getContactPosts={this.getContactPosts}/>
+                </div>
               </div>
-              <div className="sectionPost">
-                <Post />
-                <CreatePost saveNewPost={this.saveNewPost}/>
-              </div>
-              <div>
-                <Actualites feedMessage={this.state.feedMessage} posts={this.state.posts}/>
-              </div>
-            </div>
-            <div className="col-3 contact d-flex flex-row justify-content-center align-items-start ">
-              <Contact getContactPosts={this.getContactPosts}/>
-            </div>
+            </Route>
           </div>
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/subscribe">
-          <Subscribe />
-        </Route>
-      </div>
-    );
+      
+
+
+      );
   }
 }
 export default App;
