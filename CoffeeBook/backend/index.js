@@ -2,6 +2,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 
 const indexRouter = require('./routes/index');
+const categoryRouter = require('./routes/category');
+const userRouter = require('./routes/user');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const subscribeRouter = require('./routes/subscribe');
@@ -21,6 +23,8 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/subscribe', subscribeRouter);
+app.use('/categories', categoryRouter);
+app.use('/user', userRouter);
 
 // start the server
 app.listen(process.env.PORT || 3000, () => {
