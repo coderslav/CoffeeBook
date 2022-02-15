@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { Post } = require('../models');
-const JWTtokenCheck = require('./middlewares/JWTtokenCheck');
+const requireAuthenticate = require('../middlewares/requireAuthenticate');
 
-router.get('/', JWTtokenCheck, (req, res) => {
-    req.user ? res.send(`Welcome to CoffeeBook ! \n`) : res.send('Login please before enter');
-    console.log(req.user);
+router.post('/', requireAuthenticate, (req, res) => {
+    res.send(`Welcome to CoffeeBook ! \n`);
+    console.log(req.session.user);
 });
 
-router.get('/latestposts', async (req, res) => {
+router.post('/latestposts', requireAuthenticate, async (req, res) => {
     const posts = await Post.findAll({
         order: [['createdAt', 'DESC']],
         raw: true,
@@ -16,7 +16,7 @@ router.get('/latestposts', async (req, res) => {
     res.send(posts);
 });
 
-router.post('/getuserposts', async (req, res) => {
+router.post('/getuserposts', requireAuthenticate, async (req, res) => {
     const posts = await Post.findAll({
         where: { userId: req.body.userId },
         order: [['createdAt', 'DESC']],

@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
-
+const cors = require('cors');
+const JWTtokenCheck = require('./middlewares/JWTtokenCheck');
 const indexRouter = require('./routes/index');
 const categoryRouter = require('./routes/category');
 const userRouter = require('./routes/user');
@@ -13,12 +16,16 @@ const app = express();
 // Specifier le répertoire pour les fichiers static : .css, .js, .jpg, ...
 app.use(express.static('public'));
 
+// Allow requests from all origins
+app.use(cors());
+
 // ajouter les middleware pour la lecture des cookies et du corps des requetes post
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser('secret'));
+app.use(cookieParser());
 
 // use router files
+app.use(JWTtokenCheck);
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);

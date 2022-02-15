@@ -1,19 +1,17 @@
 const jwt = require('jsonwebtoken');
 
 function JWTtokenCheck(req, res, next) {
-    let token;
-    const authHeader = req.headers['authorization'];
-    authHeader ? (token = authHeader.split(' ')[1]) : false;
-    if (!token) {
-        req.user = false;
+    req.session = {};
+    if (!req.cookies.access_token) {
+        req.session.user = false;
         next();
     } else {
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        jwt.verify(req.cookies.access_token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) {
-                req.user = false;
+                req.session.user = false;
                 next();
             } else {
-                req.user = user;
+                req.session.user = user;
                 next();
             }
         });
@@ -29,7 +27,7 @@ function JWTtokenCheck(req, res, next) {
 //     if (!token) return res.sendStatus(401);
 //     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
 //         if (err) return res.sendStatus(403);
-//         req.user = user;
+//         req.session.user = user;
 //         next();
 //     });
 // }

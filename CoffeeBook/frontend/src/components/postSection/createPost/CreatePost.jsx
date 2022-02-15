@@ -11,7 +11,7 @@ export default function CreatePost() {
 
                 <div className="mb-3">
                     <select name="selectPost" className="form-select selectPost" aria-label="Default select example">
-                        <option selected>Choisissez votre catégorie</option>
+                        <option>Choisissez votre catégorie</option>
                         <option value="1">environnement</option>
                         <option value="2">web</option>
                         <option value="3">vacances</option>
@@ -20,7 +20,7 @@ export default function CreatePost() {
                 </div>
 
                 <div className='mb-3'>
-                    <input type="text" class="form-control selectPost" name="titlePost" placeholder="Choisissez un titre"></input>
+                    <input type="text" className="form-control selectPost" name="titlePost" placeholder="Choisissez un titre"></input>
                 </div>
 
                 <div className="mb-3">

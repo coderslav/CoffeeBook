@@ -1,12 +1,11 @@
-require('dotenv').config();
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
+const requireAnonym = require('../middlewares/requireAnonym');
 
-router.post('/', async (req, res) => {
+router.post('/', requireAnonym, async (req, res) => {
     // Authenticate user
     try {
         const { email, password } = req.body;
@@ -16,8 +15,8 @@ router.post('/', async (req, res) => {
             // Check if user authenticated
             if (await bcrypt.compare(password, user.password)) {
                 const accessToken = jwt.sign({ id: user.id, firstName: user.firstName, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
-                const refreshToken = jwt.sign({ id: user.id, firstName: user.firstName, isAdmin: user.isAdmin }, process.env.REFRESH_TOKEN_SECRET);
-                res.status(200).send({ accessToken, refreshToken });
+                const { id, firstName, lastName, isAdmin, profilePicturePath } = user;
+                res.cookie('access_token', accessToken).status(200).send({ user: { id, isAdmin, firstName, lastName, profilePicturePath } });
             } else {
                 res.status(401).send('Not allowed');
             }
