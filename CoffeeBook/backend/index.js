@@ -17,7 +17,12 @@ const app = express();
 app.use(express.static('public'));
 
 // Allow requests from all origins
-app.use(cors());
+app.use(
+    cors({
+        credentials: true,
+        origin: 'http://localhost:3000',
+    })
+);
 
 // ajouter les middleware pour la lecture des cookies et du corps des requetes post
 app.use(express.urlencoded({ extended: true }));
