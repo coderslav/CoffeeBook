@@ -13,6 +13,7 @@ import Login from "./login/Login";
 import Subscribe from "./subscribe/Subscribe";
 import { Route, Redirect } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const PORT = 5000;
 
@@ -171,14 +172,14 @@ class App extends React.Component {
   }
 
   // componentDidMount() {
-  //   this.getLatest();
+  //   axios.post(`http://localhost:${PORT}/login`)
+  //     .then(res => {
+  //       console.log("users : ", res);
+  //     })
   // }
 
-  componentDidUpdate(prevState) {
-    console.log("previous state : ", prevState.id);
-    console.log("current state : ", this.state.id);
-    if (prevState.id == undefined && this.state.id) {
-      console.log("get latest posts");
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.id !== this.state.id) {
       this.getLatest();
     } 
   }

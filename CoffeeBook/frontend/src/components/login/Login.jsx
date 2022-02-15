@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 const PORT = 5000;
 
