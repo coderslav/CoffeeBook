@@ -21,7 +21,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       newAccount: false,
-      userId: 0,
+      id: 0,
       firstName: "",
       lastName: "",
       isAdmin: false,
@@ -39,8 +39,8 @@ class App extends React.Component {
   // METHODS passed as props to posts
 
   // User has logged in
-  userHasLoggedIn = ({ userId, isAdmin }) => {
-    this.setState({ userId, isAdmin });
+  userHasLoggedIn = ({ id, isAdmin, firstName, lastName }) => {
+    this.setState({ id, isAdmin, firstName, lastName });
   }
 
   createNewUser = () => {
@@ -49,8 +49,8 @@ class App extends React.Component {
     });
   }
 
-  newUserCreated = ({ userId }) => {
-    this.setState({ userId, newAccount: false });
+  newUserCreated = ({ id }) => {
+    this.setState({ id, newAccount: false });
   }
 
   // Get the latest posts created in CoffeeBook
@@ -59,6 +59,7 @@ class App extends React.Component {
     try {
         const latestReq = `http://localhost:${PORT}/latestposts`;
         const newPosts = await axios.post(latestReq);
+        console.log("latest posts : ", newPosts);
         this.setState({
             posts: newPosts.data,
             news: true,
@@ -149,11 +150,6 @@ class App extends React.Component {
   }
 
 
-  // For Login and Subscribe, save user info
-  saveUserInfo = ({userId, isAdmin}) => {
-    this.setState({ ...this.state, userId, isAdmin });
-  }
-
   // Save a new Post. The server should return the 
   saveNewPost = async (e) => {
     e.preventDefault();
@@ -174,14 +170,22 @@ class App extends React.Component {
     })  
   }
 
-  componentDidMount() {
-    this.getLatest();
-  }
+  // componentDidMount() {
+  //   this.getLatest();
+  // }
 
+  componentDidUpdate(prevState) {
+    console.log("previous state : ", prevState.id);
+    console.log("current state : ", this.state.id);
+    if (prevState.id == undefined && this.state.id) {
+      console.log("get latest posts");
+      this.getLatest();
+    } 
+  }
 
   render() {
     return (
-      this.state.userId == 0 && !this.state.newAccount
+      this.state.id == 0 && !this.state.newAccount
         ? <Login loggedUser={this.userHasLoggedIn} createUser={this.createNewUser}/>
         : this.state.newAccount 
         ? <Subscribe newUserCreated={this.newUserCreated} />
