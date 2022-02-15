@@ -10,8 +10,13 @@ export default class Login extends Component {
             email: e.target.email,
             password: e.target.password
         }
-        const connected = await axios.post(`http://localhost:${PORT}/login`, userInfo);
-        this.props.loggedUser({ userId: connected.userId, isAdmin: connected.isAdmin })
+        const connectedUser = await axios.post(`http://localhost:${PORT}/login`, userInfo);
+        this.props.loggedUser({ 
+            userId: connectedUser.userId, 
+            firstName: connectedUser.firstName,
+            lastName: connectedUser.lastName,
+            isAdmin: connectedUser.isAdmin 
+        });
     }  
 
     render() {

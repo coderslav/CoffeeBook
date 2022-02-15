@@ -22,6 +22,8 @@ class App extends React.Component {
     this.state = {
       newAccount: false,
       userId: 0,
+      firstName: "",
+      lastName: "",
       isAdmin: false,
       posts: [],
       news: true,
