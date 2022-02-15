@@ -22,18 +22,18 @@
   height: 30px;
 }
 
-.gearAppearance{
-  color:rgb(89, 90, 92);
+.gearAppearance {
+  color: rgb(239 168 62);
 }
-.gearAppearance:hover , .gearAppearance:active{
-  color:rgb(129, 130, 133);
+.gearAppearance:hover,
+.gearAppearance:active {
+  color: rgb(129, 130, 133);
 }
-.dropdown-menu.menuParameter{
-  margin:0px 0px 0px -146px !important;
+.dropdown-menu.menuParameter {
+  margin: 0px 0px 0px -146px !important;
 }
 .menuParameter svg {
-  width:20px;
-  height:20px;
-  margin-right:10px
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
-
