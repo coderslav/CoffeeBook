@@ -14,8 +14,8 @@ router.post('/', requireAnonym, async (req, res) => {
         if (user) {
             // Check if user authenticated
             if (await bcrypt.compare(password, user.password)) {
-                const accessToken = jwt.sign({ id: user.id, firstName: user.firstName, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
                 const { id, firstName, lastName, isAdmin, profilePicturePath } = user;
+                const accessToken = jwt.sign({ id, firstName, isAdmin }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
                 res.cookie('access_token', accessToken).status(200).send({ user: { id, isAdmin, firstName, lastName, profilePicturePath } });
             } else {
                 res.status(401).send('Not allowed');
