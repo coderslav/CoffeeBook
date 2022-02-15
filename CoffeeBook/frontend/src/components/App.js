@@ -26,6 +26,7 @@ class App extends React.Component {
       firstName: "",
       lastName: "",
       isAdmin: false,
+      profilePicturePath: "",
       posts: [],
       news: true,
       best: false,
@@ -39,15 +40,20 @@ class App extends React.Component {
 
   // METHODS passed as props to posts
 
-  // User has logged in
-  userHasLoggedIn = ({ id, isAdmin, firstName, lastName }) => {
-    this.setState({ id, isAdmin, firstName, lastName });
+  // User has logged in 
+  // Save the user data in localStorage to keep the user signed in 
+  // until he/she signed out 
+  userHasLoggedIn = ({ id, isAdmin, firstName, lastName, profilePicturePath }) => {
+    localStorage.setItem("id", id);
+    localStorage.setItem("isAdmin", isAdmin);
+    localStorage.setItem("firstName", firstName);
+    localStorage.setItem("lastName", lastName);
+    localStorage.setItem("profilePicturePath", profilePicturePath)
+    this.setState({ id, isAdmin, firstName, lastName, profilePicturePath });
   }
 
   createNewUser = () => {
-    this.setState({ newAccount: true }, () => {
-      console.log("Subscribe screen is needed : ", this.state.newAccount);
-    });
+    this.setState({ newAccount: true });
   }
 
   newUserCreated = ({ id }) => {
@@ -82,7 +88,7 @@ class App extends React.Component {
       const bestReq = `http://localhost:${PORT}/getbestposts`;
       const bestPosts = await axios.post(bestReq);
       this.setState({
-          posts: bestPosts,
+          posts: bestPosts.data,
           news: false,
           best: true,
           myCatId: 0,
@@ -104,7 +110,7 @@ class App extends React.Component {
     const categoryId = e.target.value;
     const catPosts = await axios.post(`http://localhost:${PORT}/getcategoryposts`, { categoryId });
     this.setState({
-      posts: catPosts.items,
+      posts: catPosts.data,
       news: false,
       best: false,
       myCatId: categoryId,
@@ -123,7 +129,7 @@ class App extends React.Component {
     const contactId = e.target.value;
     const contactPosts = await axios.post(`http://localhost:${PORT}/getcontactposts`, { contactId });
     this.setState({
-      posts: contactPosts.items,
+      posts: contactPosts.data,
       news: false,
       best: false,
       myCatId: 0,
@@ -140,7 +146,7 @@ class App extends React.Component {
     const keyword = e.target.value;
     const keywordPosts = await axios.post(`http://localhost:${PORT}/getpostswithkeyword`, { keyword });
     this.setState({
-      posts: keywordPosts,
+      posts: keywordPosts.data,
       news: false,
       best: false,
       myCatId: 0,
@@ -151,7 +157,10 @@ class App extends React.Component {
   }
 
 
-  // Save a new Post. The server should return the 
+  // Save a new post.
+  // The server should return the latest posts in CoffeeBook 
+  // by descending order of their creation date. It will possibly return the post
+  // that has been sent. 
   saveNewPost = async (e) => {
     e.preventDefault();
     const newPostForm = new FormData(e.target);
@@ -161,7 +170,7 @@ class App extends React.Component {
     }
     const newPosts = await axios.post(`http://localhost:${PORT}/post/create`, { newPost });
     this.setState({
-      posts: newPosts,
+      posts: newPosts.data,
       news: true,
       best: false,
       myCat: "",
@@ -171,16 +180,25 @@ class App extends React.Component {
     })  
   }
 
-  // componentDidMount() {
-  //   axios.post(`http://localhost:${PORT}/login`)
-  //     .then(res => {
-  //       console.log("users : ", res);
-  //     })
-  // }
+  // In case a previous user signed in to CoffeeBook, his/her info are retrieved from 
+  // archive in localStorage. 
+  // As there is an user "id" when this component mounts, the Login screen will be called
+  componentDidMount() {
+    if (localStorage.getItem("id")) {
+      this.setState({
+        id: localStorage.getItem("id"),
+        firstName: localStorage.getItem("firstName"),
+        lastName: localStorage.getItem('lastName'),
+        isAdmin: localStorage.getItem("isAdmin"),
+        profilePicturePath: localStorage.getItem("profilePicturePath")
+      })
+    }
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.id !== this.state.id) {
-      this.getLatest();
+      axios.post(`http://localhost:${PORT}/login`)
+      .then(this.getLatest());
     } 
   }
 
