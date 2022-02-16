@@ -2,11 +2,18 @@ import React, { Component } from 'react';
 import '../login/login.css'
 import axios from 'axios';
 axios.defaults.withCredentials = true;
-const PORT  = 5000;
+const PORT = 5000;
 
 export default class Subscribe extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            errorMessage: ""
+        }
+    }
 
-    createAccount = async (e) => {
+
+    createAccount = (e) => {
         e.preventDefault();
         const subscribeForm = new FormData(e.currentTarget);
         const newClient = {};
@@ -14,10 +21,17 @@ export default class Subscribe extends Component {
             newClient[key] = value;
         }
         console.log("newClient : ", newClient);
-        const newUser = await axios.post(`http://localhost:${PORT}/subscribe`, newClient);
-        this.props.newUserCreated({ 
-            ...newUser.data.user
-        })
+        axios.post(`http://localhost:${PORT}/subscribe`, newClient)
+            .then(newUser => {
+                this.props.newUserCreated({
+                    ...newUser.data.user
+                })
+            })
+            .catch(err => {
+                console.log("subscribe request status code : ", err.response.status);
+                if (err.response.status == 409)
+                    this.setState({ errorMessage: "L'email a déjà été utilisé !" });
+            })
     }
 
     render() {
@@ -32,7 +46,8 @@ export default class Subscribe extends Component {
                         </div>
                     </header>
                     <div className='card shadow-2-strong sectionLogin' style={{ borderRadius: '1rem' }}>
-                        <div className='card-body p-5 text-center'>
+                        <div className='card-body p-5 text-center' style={{ position: "relative" }}>
+                            {this.state.errorMessage !== "" ? <p className="alertDuplicate">{this.state.errorMessage}</p> : ""}
                             <form method='POST' onSubmit={this.createAccount}>
                                 <div className='form-outline mb-4'>
                                     <input type='text' name="firstName" placeholder='Prénom' id='typeFirstName-2' className='form-control form-control-lg' />
