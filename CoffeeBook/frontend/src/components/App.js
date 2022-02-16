@@ -141,7 +141,7 @@ class App extends React.Component {
       myCatId: 0,
       myContactId: contactId,
       titleKeyword: "", 
-      feedMassage: `Les derniers posts de ${contactPosts.firstName} ${contactPosts.lastName}`
+      feedMessage: `Les derniers posts de ${contactPosts.firstName} ${contactPosts.lastName}`
     })
   }
 
@@ -253,7 +253,7 @@ class App extends React.Component {
                 <div className="col-3 category maxHeight">
                   <LogoCB />
                   <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} />
-                  <MyCategories getCategoryPosts={this.getCategoryPosts} />
+                  <MyCategories userId={this.state.id} getCategoryPosts={this.getCategoryPosts} />
                 </div>
                 <div className="col-6 profilSection">
                   <div className="headerProfil">
@@ -279,7 +279,7 @@ class App extends React.Component {
                   </div>
                 </div>
                 <div className="col-3 contact d-flex flex-row justify-content-center align-items-start ">
-                  <Contact getContactPosts={this.getContactPosts}/>
+                  <Contact userId={this.state.id} getContactPosts={this.getContactPosts}/>
                 </div>
               </div>
             </Route>

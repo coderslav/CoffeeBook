@@ -12,8 +12,8 @@ export class HeaderProfile extends Component {
         return (
             <div className="imgProfile">
                 <img className="imgProfile" src={man} alt="" width="70px" height="70px" />
-                <span>Prénom</span>
-                <span>Nom</span>
+                <span>{this.props.firstName}</span>
+                <span>{this.props.lastName}</span>
                 <div className='parameter'>                   
                     <div className="nav-item dropdown">
                         <a className="nav-link gearAppearance" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"> <BsFillGearFill /></a>
