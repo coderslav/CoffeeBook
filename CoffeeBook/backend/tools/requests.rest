@@ -26,22 +26,56 @@ Content-Type: application/json
 }
 ### Remove a favorite category from a user
 DELETE http://localhost:5000/user/100/category/3
+### Filter users by search value
+POST http://localhost:5000/user/filter
+Content-Type: application/json
+
+{
+    "filter": "mary",
+    "userId": 99
+}
+### Get all contacts of User
+POST http://localhost:5000/user/contacts
+Content-Type: application/json
+
+{
+    "userId": 2
+}
+### Delete contact of friend
+POST http://localhost:5000/user/contacts/delete
+Content-Type: application/json
+
+{
+    "userId": 2,
+    "contactId": 41
+}
+### Create contact of friend
+POST http://localhost:5000/user/contacts/create
+Content-Type: application/json
+
+{
+    "userId": 2,
+    "contactId": 33
+}
 
 
-### Get Latest Posts
-POST http://localhost:5000/latestposts
 ### Get Users Posts
 POST http://localhost:5000/getuserposts
-content-type: application/json
+Content-Type: application/json
 
 {
     "userId": 1
 }
 
 
+
+### Get Latest Posts
+POST http://localhost:5000/latestposts
+
+
 ### Subscribe
 POST http://localhost:5000/subscribe
-content-type: application/json
+Content-Type: application/json
 
 {
     "email": "newuser@tester.com",
@@ -58,7 +92,7 @@ content-type: application/json
 ### }
 ### Login
 POST http://localhost:5000/login
-content-type: application/json
+Content-Type: application/json
 
 {
     "email": "newuser@tester.com",

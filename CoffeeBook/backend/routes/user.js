@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User, UserCategory } = require('../models/index');
+const { User, UserCategory, UserFriend } = require('../models/index');
 const requireAuthenticate = require('../middlewares/requireAuthenticate');
 
 async function getFavoriteCategoriesOfUser(req, res) {
@@ -22,6 +22,19 @@ async function getFavoriteCategoriesOfUser(req, res) {
         res.status(200).send(cats);
     } catch (error) {
         res.status(500).send(error);
+    }
+}
+
+async function getContacts(req, res) {
+    try {
+        const userContacts = await UserFriend.findAll({ where: { userId: req.body.userId }, include: { all: true }, nest: true, raw: true });
+        let contacts = userContacts.map((contact) => {
+            const { id, firstName, lastName, isAdmin, profilePicturePath } = contact.friend;
+            return { id, firstName, lastName, isAdmin, profilePicturePath };
+        });
+        res.status(200).send(contacts);
+    } catch (error) {
+        res.status(400).send('User not provided');
     }
 }
 
@@ -70,13 +83,63 @@ router.delete('/:userId/category/:categoryId', requireAuthenticate, async (req, 
 });
 
 // Get users by filter
-// router.post('/filter', requireAuthenticate, async (req, res)=>{
-//     try {
-//         let allUsers = await User.findAll()
+router.post('/filter', requireAuthenticate, async (req, res) => {
+    if (req.body.filter && req.body.userId) {
+        const filterCondition = req.body.filter.toString().toLowerCase().replaceAll(' ', '');
+        try {
+            let allUsers = await User.findAll({ raw: true });
+            let allUsersOutput = allUsers.map((user) => {
+                const { id, firstName, lastName, isAdmin, profilePicturePath } = user;
+                return { id, firstName, lastName, isAdmin, profilePicturePath };
+            });
+            let filteredUsers = allUsersOutput.filter((user) => {
+                let nameConcat = (user.firstName + user.lastName).toLowerCase().replaceAll(' ', '');
+                return nameConcat.includes(filterCondition) && user.id !== req.body.userId;
+            });
+            res.status(200).send(filteredUsers);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    } else {
+        res.status(400).send('Filter String or User ID not provided');
+    }
+});
 
-//     } catch (error) {
-        
-//     }
-// })
+//Get all contacts of user
+router.post('/contacts', requireAuthenticate, async (req, res) => {
+    if (req.body.userId) {
+        await getContacts(req, res);
+    } else {
+        res.status(400).send('User not provided');
+    }
+});
+
+//Delete contact of user
+router.post('/contacts/delete', requireAuthenticate, async (req, res) => {
+    if (req.body.userId && req.body.contactId) {
+        try {
+            await UserFriend.destroy({ where: { userId: req.body.userId, friendId: req.body.contactId } });
+            await getContacts(req, res);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    } else {
+        res.status(400).send('User ID or Contact ID not provided');
+    }
+});
+
+//Create contact of user
+router.post('/contacts/create', requireAuthenticate, async (req, res) => {
+    if (req.body.userId && req.body.contactId) {
+        try {
+            await UserFriend.findOrCreate({ where: { userId: req.body.userId, friendId: req.body.contactId } });
+            await getContacts(req, res);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    } else {
+        res.status(400).send('User ID or Contact ID not provided');
+    }
+});
 
 module.exports = router;
