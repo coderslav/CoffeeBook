@@ -69,4 +69,14 @@ router.delete('/:userId/category/:categoryId', requireAuthenticate, async (req, 
     }
 });
 
+// Get users by filter
+// router.post('/filter', requireAuthenticate, async (req, res)=>{
+//     try {
+//         let allUsers = await User.findAll()
+
+//     } catch (error) {
+        
+//     }
+// })
+
 module.exports = router;
