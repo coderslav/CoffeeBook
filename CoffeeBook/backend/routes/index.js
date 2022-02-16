@@ -13,7 +13,7 @@ router.post('/latestposts', requireAuthenticate, async (req, res) => {
         JSON.stringify(
             await Post.findAll({
                 order: [['createdAt', 'DESC']],
-                include: 'postCategory',
+                include: ['postCategory', 'postUser'],
             })
         )
     );
@@ -26,7 +26,7 @@ router.post('/getuserposts', requireAuthenticate, async (req, res) => {
             await Post.findAll({
                 where: { userId: req.body.userId },
                 order: [['createdAt', 'DESC']],
-                include: 'postCategory',
+                include: ['postCategory', 'postUser'],
             })
         )
     );
