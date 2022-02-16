@@ -57,8 +57,13 @@ class App extends React.Component {
     this.setState({ newAccount: true });
   }
 
-  newUserCreated = ({ id }) => {
-    this.setState({ id, newAccount: false });
+  newUserCreated = ({ id, firstName, lastName, isAdmin, profilePicturePath }) => {
+    localStorage.setItem("id", id);
+    localStorage.setItem("isAdmin", isAdmin);
+    localStorage.setItem("firstName", firstName);
+    localStorage.setItem("lastName", lastName);
+    localStorage.setItem("profilePicturePath", profilePicturePath)
+    this.setState({ id, firstName, lastName, isAdmin, profilePicturePath, newAccount: false });
   }
 
   // Get the latest posts created in CoffeeBook
@@ -230,8 +235,9 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.id !== this.state.id) {
-      axios.post(`http://localhost:${PORT}/login`)
-      .then(this.getLatest());
+      // axios.post(`http://localhost:${PORT}/login`)
+      // .then(this.getLatest());
+      this.getLatest();
     } 
   }
 

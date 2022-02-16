@@ -13,6 +13,7 @@ export default class Subscribe extends Component {
         for (let [key, value] of subscribeForm) {
             newClient[key] = value;
         }
+        console.log("newClient : ", newClient);
         const newUser = await axios.post(`http://localhost:${PORT}/subscribe`, newClient);
         this.props.newUserCreated({ 
             ...newUser.data.user
@@ -47,7 +48,7 @@ export default class Subscribe extends Component {
                                 </div>
 
                                 <div className='form-outline mb-4'>
-                                    <input type='password' ame="password" placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
+                                    <input type='password' name="password" placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
                                 </div>
 
                                 <button className='btn btnSubscribe btn-lg btn-block' type='submit'>

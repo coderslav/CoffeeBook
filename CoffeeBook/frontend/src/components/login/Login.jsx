@@ -36,7 +36,7 @@ export default class Login extends Component {
                                     <input type='email' name="email" placeholder='Email' id='typeEmailX-2' className='form-control form-control-lg' />
                                 </div>
                                 <div className='form-outline mb-4'>
-                                    <input type='password' ame="password" placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
+                                    <input type='password' name="password" placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
                                 </div>
                                 <button className='btn btnLogin btn-lg btn-block' type='submit'>
                                     Se connecter
