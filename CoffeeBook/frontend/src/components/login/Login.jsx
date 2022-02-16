@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 import './login.css'
 import axios from 'axios';
+axios.defaults.withCredentials = true;
+
 const PORT = 5000;
 
 export default class Login extends Component {
 
     loginUser = async (e) => {
         e.preventDefault();
-        const userInfo = {
-            email: e.target.email,
-            password: e.target.password
+        const loginForm = new FormData(e.currentTarget);
+        const userToLog = {};
+        for (let [key, value] of loginForm) {
+            userToLog[key] = value;
         }
-        const connectedUser = await axios.post(`http://localhost:${PORT}/login`, userInfo);
-        this.props.loggedUser({
-            userId: connectedUser.userId,
-            firstName: connectedUser.firstName,
-            lastName: connectedUser.lastName,
-            isAdmin: connectedUser.isAdmin
-        });
-    }
+        const connectedUser = await axios.post(`http://localhost:${PORT}/login`, userToLog);
+        this.props.loggedUser({ ...connectedUser.data.user });
+    }  
 
     render() {
         return (
@@ -37,11 +35,9 @@ export default class Login extends Component {
                                 <div className='form-outline mb-4'>
                                     <input type='email' name="email" placeholder='Email' id='typeEmailX-2' className='form-control form-control-lg' />
                                 </div>
-
                                 <div className='form-outline mb-4'>
-                                    <input type='password' ame="password" placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
+                                    <input type='password' name="password" placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
                                 </div>
-
                                 <button className='btn btnLogin btn-lg btn-block' type='submit'>
                                     Se connecter
                                 </button>

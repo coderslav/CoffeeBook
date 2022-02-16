@@ -9,19 +9,27 @@ router.post('/', requireAuthenticate, (req, res) => {
 });
 
 router.post('/latestposts', requireAuthenticate, async (req, res) => {
-    const posts = await Post.findAll({
-        order: [['createdAt', 'DESC']],
-        raw: true,
-    });
+    const posts = JSON.parse(
+        JSON.stringify(
+            await Post.findAll({
+                order: [['createdAt', 'DESC']],
+                include: 'postCategory',
+            })
+        )
+    );
     res.send(posts);
 });
 
 router.post('/getuserposts', requireAuthenticate, async (req, res) => {
-    const posts = await Post.findAll({
-        where: { userId: req.body.userId },
-        order: [['createdAt', 'DESC']],
-        raw: true,
-    });
+    const posts = JSON.parse(
+        JSON.stringify(
+            await Post.findAll({
+                where: { userId: req.body.userId },
+                order: [['createdAt', 'DESC']],
+                include: 'postCategory',
+            })
+        )
+    );
     res.send(posts);
 });
 

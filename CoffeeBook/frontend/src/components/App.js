@@ -13,6 +13,7 @@ import Login from "./login/Login";
 import Subscribe from "./subscribe/Subscribe";
 import { Route, Redirect } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const PORT = 5000;
 
@@ -21,15 +22,17 @@ class App extends React.Component {
     super(props);
     this.state = {
       newAccount: false,
-      userId: 0,
+      createNewPost: false,
+      id: 0,
       firstName: "",
       lastName: "",
       isAdmin: false,
+      profilePicturePath: "",
       posts: [],
       news: true,
       best: false,
-      myCat: "",
-      myContact: "",
+      myCat: 0,
+      myContact: 0,
       titleKeyword: "",
       feedMessage: ""
     };
@@ -38,19 +41,29 @@ class App extends React.Component {
 
   // METHODS passed as props to posts
 
-  // User has logged in
-  userHasLoggedIn = ({ userId, isAdmin }) => {
-    this.setState({ userId, isAdmin });
+  // User has logged in 
+  // Save the user data in localStorage to keep the user signed in 
+  // until he/she signed out 
+  userHasLoggedIn = ({ id, isAdmin, firstName, lastName, profilePicturePath }) => {
+    localStorage.setItem("id", id);
+    localStorage.setItem("isAdmin", isAdmin);
+    localStorage.setItem("firstName", firstName);
+    localStorage.setItem("lastName", lastName);
+    localStorage.setItem("profilePicturePath", profilePicturePath)
+    this.setState({ id, isAdmin, firstName, lastName, profilePicturePath });
   }
 
   createNewUser = () => {
-    this.setState({ newAccount: true }, () => {
-      console.log("Subscribe screen is needed : ", this.state.newAccount);
-    });
+    this.setState({ newAccount: true });
   }
 
-  newUserCreated = ({ userId }) => {
-    this.setState({ userId, newAccount: false });
+  newUserCreated = ({ id, firstName, lastName, isAdmin, profilePicturePath }) => {
+    localStorage.setItem("id", id);
+    localStorage.setItem("isAdmin", isAdmin);
+    localStorage.setItem("firstName", firstName);
+    localStorage.setItem("lastName", lastName);
+    localStorage.setItem("profilePicturePath", profilePicturePath)
+    this.setState({ id, firstName, lastName, isAdmin, profilePicturePath, newAccount: false });
   }
 
   // Get the latest posts created in CoffeeBook
@@ -59,14 +72,15 @@ class App extends React.Component {
     try {
         const latestReq = `http://localhost:${PORT}/latestposts`;
         const newPosts = await axios.post(latestReq);
+        console.log("latest posts : ", newPosts);
         this.setState({
             posts: newPosts.data,
             news: true,
             best: false,
-            myCat: "",
-            myContact: "",
+            myCat: 0,
+            myContact: 0,
             titleKeyword: "",
-            feedMassage: "Les dernières actualités"
+            feedMessage: "Les dernières actualités"
         })   
     } catch(err) {
         console.error("Error getting latest posts : ", err);
@@ -80,7 +94,7 @@ class App extends React.Component {
       const bestReq = `http://localhost:${PORT}/getbestposts`;
       const bestPosts = await axios.post(bestReq);
       this.setState({
-          posts: bestPosts,
+          posts: bestPosts.data,
           news: false,
           best: true,
           myCatId: 0,
@@ -102,7 +116,7 @@ class App extends React.Component {
     const categoryId = e.target.value;
     const catPosts = await axios.post(`http://localhost:${PORT}/getcategoryposts`, { categoryId });
     this.setState({
-      posts: catPosts.items,
+      posts: catPosts.data,
       news: false,
       best: false,
       myCatId: categoryId,
@@ -121,7 +135,7 @@ class App extends React.Component {
     const contactId = e.target.value;
     const contactPosts = await axios.post(`http://localhost:${PORT}/getcontactposts`, { contactId });
     this.setState({
-      posts: contactPosts.items,
+      posts: contactPosts.data,
       news: false,
       best: false,
       myCatId: 0,
@@ -138,23 +152,25 @@ class App extends React.Component {
     const keyword = e.target.value;
     const keywordPosts = await axios.post(`http://localhost:${PORT}/getpostswithkeyword`, { keyword });
     this.setState({
-      posts: keywordPosts,
+      posts: keywordPosts.data,
       news: false,
       best: false,
       myCatId: 0,
       myContactId: 0,
       titleKeyword: keyword,
-      feedMassage: `Les derniers posts avec ${keyword} en titre`
+      feedMessage: `Les derniers posts avec ${keyword} en titre`
     })
   }
 
-
-  // For Login and Subscribe, save user info
-  saveUserInfo = ({userId, isAdmin}) => {
-    this.setState({ ...this.state, userId, isAdmin });
+  // Display the createPost component
+  createNewPost = () => {
+    this.setState({ createNewPost: true })
   }
 
-  // Save a new Post. The server should return the 
+  // Save a new post.
+  // The server should return the latest posts in CoffeeBook 
+  // by descending order of their creation date. It will possibly return the post
+  // that has been sent. 
   saveNewPost = async (e) => {
     e.preventDefault();
     const newPostForm = new FormData(e.target);
@@ -164,24 +180,70 @@ class App extends React.Component {
     }
     const newPosts = await axios.post(`http://localhost:${PORT}/post/create`, { newPost });
     this.setState({
-      posts: newPosts,
+      createNewPost: false,
+      posts: newPosts.data,
       news: true,
       best: false,
-      myCat: "",
-      myContact: "",
+      myCat: 0,
+      myContact: 0,
       titleKeyword: "",
-      feedMassage: "Les dernières actualités"
+      feedMessage: "Les dernières actualités"
     })  
   }
 
-  componentDidMount() {
-    this.getLatest();
+  // Route to delete a post by its id
+  // return all posts by descending order of their creation date
+  deletePost = async (e) => {
+    console.log(`delete post ${e.currentTarget.id}`);
+    const updatedPostList = await axios.post(`http://localhost:${PORT}/post/delete`, { id: e.currentTarget.id });
+    let refreshedList = updatedPostList.data.slice();
+    if (this.state.best) {
+      refreshedList.sort((a, b) => a.voteAvg - b.voteAvg);
+    }
+
+    if (this.state.myCat) {
+      // TODO : need to retrieve the list of post with its categories
+      // refreshedList is filtered for items having the myCat category
+    }
+
+    if (this.state.myContact) {
+      refreshedList = refreshedList.filter(post => post.userId === this.state.myContact );
+    }
+
+    if (this.state.keyword) {
+      refreshedList = refreshedList.filter(post => post.title.contains(this.state.keyword));
+    }
+    this.setState({
+      posts: refreshedList,
+    })
   }
 
+  // In case a previous user signed in to CoffeeBook, his/her info are retrieved from 
+  // archive in localStorage. 
+  // As there is an user "id" when this component mounts, the Login screen will be called
+  componentDidMount() {
+    if (localStorage.getItem("id")) {
+      this.setState({
+        id: localStorage.getItem("id"),
+        firstName: localStorage.getItem("firstName"),
+        lastName: localStorage.getItem('lastName'),
+        isAdmin: localStorage.getItem("isAdmin"),
+        profilePicturePath: localStorage.getItem("profilePicturePath")
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.id !== this.state.id) {
+      // axios.post(`http://localhost:${PORT}/login`)
+      // .then(this.getLatest());
+      this.getLatest();
+    } 
+  }
 
   render() {
     return (
-      this.state.userId == 0 && !this.state.newAccount
+      this.state.id == 0 && !this.state.newAccount
         ? <Login loggedUser={this.userHasLoggedIn} createUser={this.createNewUser}/>
         : this.state.newAccount 
         ? <Subscribe newUserCreated={this.newUserCreated} />
@@ -190,16 +252,27 @@ class App extends React.Component {
               <div className="row ">
                 <div className="col-3 category maxHeight">
                   <LogoCB />
-                  <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} getCategoryPosts={this.getCategoryPosts}/>
-                  <MyCategories />
+                  <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} />
+                  <MyCategories getCategoryPosts={this.getCategoryPosts} />
                 </div>
                 <div className="col-6 profilSection">
                   <div className="headerProfil">
-                    <HeaderProfile />
+                    <HeaderProfile 
+                      userId={this.state.id} 
+                      isAdmin={this.state.isAdmin} 
+                      firstName={this.state.firstName} 
+                      lastName={this.state.lastName} 
+                      profilePicturePath={this.profilePicturePath} />
                   </div>
                   <div className="sectionPost">
-                    <Post />
-                    <CreatePost saveNewPost={this.saveNewPost}/>
+                    <Post 
+                      getPostsWithKeyword={this.getPostsWithKeyword} 
+                      createNewPost={this.createNewPost} />
+                    {
+                     this.state.createNewPost 
+                      ? <CreatePost saveNewPost={this.saveNewPost}/>
+                      : ""
+                    }  
                   </div>
                   <div>
                     <Actualites feedMessage={this.state.feedMessage} posts={this.state.posts}/>

@@ -44,18 +44,30 @@ POST http://localhost:5000/subscribe
 content-type: application/json
 
 {
-    "email": "new@mail.com",
-    "password": "JustForTest123",
-    "firstName": "Tester",
-    "lastName": "Testerov"
+    "email": "newuser@tester.com",
+    "password": "somePass12345",
+    "firstName": "Tristan",
+    "lastName": "Lucas"
 }
+### Admin credentials:
+### {
+###     "email": "new@mail.com",
+###     "password": "JustForTest123",
+###     "firstName": "Tester",
+###     "lastName": "Testerov"
+### }
 ### Login
 POST http://localhost:5000/login
 content-type: application/json
 
 {
-    "email": "admin@admin.com",
-    "password": "AdminPass"
+    "email": "newuser@tester.com",
+    "password": "somePass12345"
 }
+### Admin credentials
+### {
+###     "email": "admin@admin.com",
+###     "password": "AdminPass"
+### }
 ### Logout
 POST http://localhost:5000/logout
