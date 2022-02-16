@@ -298,7 +298,7 @@ class App extends React.Component {
                       isAdmin={this.state.isAdmin}
                       firstName={this.state.firstName}
                       lastName={this.state.lastName}
-                      profilePicturePath={this.profilePicturePath}
+                      profilePicturePath={this.state.profilePicturePath}
                       userHasLogout={this.userHasLogout} />
                   </div>
                   <div className="sectionPost">

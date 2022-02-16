@@ -10,7 +10,7 @@ export class HeaderProfile extends Component {
     render() {
         return (
             <div className='imgProfile'>
-                <img className='imgProfile' src={man} alt='' width='70px' height='70px' />
+                <img className='imgProfile' src={this.props.profilePicturePath} alt='' width='70px' height='70px' />
                 <span>{this.props.firstName}</span>
                 <span>{this.props.lastName}</span>
                 <div className='parameter'>

@@ -16,7 +16,7 @@ export default function PostActu({ post }) {
                     : ""
             }
             <div className="postActuHeader">
-                <p>auteur<button className='btnSuivre'>suivre l'auteur</button></p>
+                <p>{post.postUser.firstName} {post.postUser.lastName}<button className='btnSuivre'>suivre l'auteur</button></p>
                 <div className="icones">
                     <BsPencilFill />
                     <AiOutlineHeart />
