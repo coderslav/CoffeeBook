@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
@@ -8,7 +9,13 @@ router.post('/', async (req, res) => {
         req.body.password = await bcrypt.hash(req.body.password, 10);
         const { email, password, firstName, lastName } = req.body;
         let [user, created] = await User.findOrCreate({ where: { email }, defaults: { password, firstName, lastName }, raw: true });
-        created ? res.status(201).send('User was successfully created') : res.status(409).send('User is already exist');
+        if (created) {
+            const { id, firstName, lastName, isAdmin, profilePicturePath } = user;
+            const accessToken = jwt.sign({ id, firstName, isAdmin }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+            res.cookie('access_token', accessToken, { httpOnly: true }).status(200).send({ user: { id, isAdmin, firstName, lastName, profilePicturePath } });
+        } else {
+            res.status(409).send('User is already exist');
+        }
     } catch (error) {
         res.status(500).send(error);
     }
