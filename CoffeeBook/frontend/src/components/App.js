@@ -22,6 +22,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       newAccount: false,
+      createNewPost: false,
       id: 0,
       firstName: "",
       lastName: "",
@@ -30,8 +31,8 @@ class App extends React.Component {
       posts: [],
       news: true,
       best: false,
-      myCat: "",
-      myContact: "",
+      myCat: 0,
+      myContact: 0,
       titleKeyword: "",
       feedMessage: ""
     };
@@ -71,10 +72,10 @@ class App extends React.Component {
             posts: newPosts.data,
             news: true,
             best: false,
-            myCat: "",
-            myContact: "",
+            myCat: 0,
+            myContact: 0,
             titleKeyword: "",
-            feedMassage: "Les dernières actualités"
+            feedMessage: "Les dernières actualités"
         })   
     } catch(err) {
         console.error("Error getting latest posts : ", err);
@@ -152,10 +153,14 @@ class App extends React.Component {
       myCatId: 0,
       myContactId: 0,
       titleKeyword: keyword,
-      feedMassage: `Les derniers posts avec ${keyword} en titre`
+      feedMessage: `Les derniers posts avec ${keyword} en titre`
     })
   }
 
+  // Display the createPost component
+  createNewPost = () => {
+    this.setState({ createNewPost: true })
+  }
 
   // Save a new post.
   // The server should return the latest posts in CoffeeBook 
@@ -170,14 +175,42 @@ class App extends React.Component {
     }
     const newPosts = await axios.post(`http://localhost:${PORT}/post/create`, { newPost });
     this.setState({
+      createNewPost: false,
       posts: newPosts.data,
       news: true,
       best: false,
-      myCat: "",
-      myContact: "",
+      myCat: 0,
+      myContact: 0,
       titleKeyword: "",
-      feedMassage: "Les dernières actualités"
+      feedMessage: "Les dernières actualités"
     })  
+  }
+
+  // Route to delete a post by its id
+  // return all posts by descending order of their creation date
+  deletePost = async (e) => {
+    console.log(`delete post ${e.currentTarget.id}`);
+    const updatedPostList = await axios.post(`http://localhost:${PORT}/post/delete`, { id: e.currentTarget.id });
+    let refreshedList = updatedPostList.data.slice();
+    if (this.state.best) {
+      refreshedList.sort((a, b) => a.voteAvg - b.voteAvg);
+    }
+
+    if (this.state.myCat) {
+      // TODO : need to retrieve the list of post with its categories
+      // refreshedList is filtered for items having the myCat category
+    }
+
+    if (this.state.myContact) {
+      refreshedList = refreshedList.filter(post => post.userId === this.state.myContact );
+    }
+
+    if (this.state.keyword) {
+      refreshedList = refreshedList.filter(post => post.title.contains(this.state.keyword));
+    }
+    this.setState({
+      posts: refreshedList,
+    })
   }
 
   // In case a previous user signed in to CoffeeBook, his/her info are retrieved from 
@@ -213,16 +246,27 @@ class App extends React.Component {
               <div className="row ">
                 <div className="col-3 category maxHeight">
                   <LogoCB />
-                  <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} getCategoryPosts={this.getCategoryPosts}/>
-                  <MyCategories />
+                  <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} />
+                  <MyCategories getCategoryPosts={this.getCategoryPosts} />
                 </div>
                 <div className="col-6 profilSection">
                   <div className="headerProfil">
-                    <HeaderProfile />
+                    <HeaderProfile 
+                      userId={this.state.id} 
+                      isAdmin={this.state.isAdmin} 
+                      firstName={this.state.firstName} 
+                      lastName={this.state.lastName} 
+                      profilePicturePath={this.profilePicturePath} />
                   </div>
                   <div className="sectionPost">
-                    <Post />
-                    <CreatePost saveNewPost={this.saveNewPost}/>
+                    <Post 
+                      getPostsWithKeyword={this.getPostsWithKeyword} 
+                      createNewPost={this.createNewPost} />
+                    {
+                     this.state.createNewPost 
+                      ? <CreatePost saveNewPost={this.saveNewPost}/>
+                      : ""
+                    }  
                   </div>
                   <div>
                     <Actualites feedMessage={this.state.feedMessage} posts={this.state.posts}/>
