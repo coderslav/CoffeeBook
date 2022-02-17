@@ -14,10 +14,10 @@ export default class Contact extends React.Component {
       contacts: [],
       removeContact: false
     }
+    this.addContact = this.addContact.bind(this);
   }
 
   componentDidMount() {
-    console.log("current user id : ", this.props.userId);
     axios.post(`http://localhost:${PORT}/user/contacts`, { userId: this.props.userId })
       .then(res => {
         console.log("userContacts : ", res);
@@ -33,7 +33,7 @@ export default class Contact extends React.Component {
   }
 
   eraseContact = (e) => {
-    axios.post(`http://localhost:${PORT}/contacts/delete`, {
+    axios.post(`http://localhost:${PORT}/user/contacts/delete`, {
       userId: this.props.userId,
       contactId: e.target.value
     })
@@ -44,7 +44,7 @@ export default class Contact extends React.Component {
   }
 
   addContact = (e) => {
-    axios.post(`http://localhost:${PORT}/contacts/create`, {
+    axios.post(`http://localhost:${PORT}/user/contacts/create`, {
       userId: this.props.userId,
       contactId: e.target.value
     })
@@ -59,7 +59,6 @@ export default class Contact extends React.Component {
   }
 
   render() {
-    console.log("my current state : ", this.state);
     return (
       <div className='d-flex flex-column'>
         <span className='titreContact'>Contacts</span>
