@@ -1,4 +1,4 @@
-async function requireAuth(req, res, next) {
+async function requireAuthenticate(req, res, next) {
     if (req.session.user) {
         next();
     } else {
@@ -6,4 +6,4 @@ async function requireAuth(req, res, next) {
     }
 }
 
-module.exports = requireAuth;
+module.exports = requireAuthenticate;
