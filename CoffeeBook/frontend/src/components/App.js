@@ -241,11 +241,13 @@ class App extends React.Component {
   // As there is an user "id" when this component mounts, the Login screen will be called
   componentDidMount() {
     if (localStorage.getItem('id')) {
+      const isAdmin = localStorage.getItem("isAdmin") === "false" ? false : true;
+
       this.setState({
-        id: localStorage.getItem('id'),
+        id: parseInt(localStorage.getItem('id')),
         firstName: localStorage.getItem('firstName'),
         lastName: localStorage.getItem('lastName'),
-        isAdmin: localStorage.getItem('isAdmin'),
+        isAdmin: isAdmin,
         profilePicturePath: localStorage.getItem('profilePicturePath'),
       });
     }

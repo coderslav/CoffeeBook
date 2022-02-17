@@ -22,10 +22,14 @@ export default class SearchContact extends React.Component {
       clearTimeout(this.searchTimeout);
     }
 
-    const contactKeyword = e.target.value;
-    // const userId = this.props.userId;
+    if (!e.target.value) 
+      return;
 
+    const contactKeyword = e.target.value;
     this.searchTimeout = setTimeout(() => {
+      console.log("contact keyword for search :", contactKeyword);
+      console.log("userId : ", this.props.userId);
+
       axios.post(`http://localhost:${PORT}/user/filter`, {
         filter: contactKeyword,
         userId: this.props.userId
