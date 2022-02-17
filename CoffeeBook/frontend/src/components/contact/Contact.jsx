@@ -14,69 +14,77 @@ export default class Contact extends React.Component {
       contacts: [],
       removeContact: false
     }
+    this.addContact = this.addContact.bind(this);
   }
 
   componentDidMount() {
-    console.log("current user id : ", this.props.userId);
     axios.post(`http://localhost:${PORT}/user/contacts`, { userId: this.props.userId })
       .then(res => {
         console.log("userContacts : ", res);
         if (res.data.length) {
-          this.setState({ contacts: res.data.contacts })
+          this.setState({ contacts: res.data })
         } 
       })
       .catch(err => console.log("Error while fetch user contacts :", err))
   }
 
+
+
   allowRemove = () => {
-    this.setState({ removeContact: true });
+    this.setState({ removeContact: !this.state.removeContact });
   }
 
   eraseContact = (e) => {
-    axios.post(`http://localhost:${PORT}/contacts/delete`, {
-      userId: this.props.userId,
-      contactId: e.target.value
-    })
-    .then(res => {
-      const newContact = res.data.contacts;
-      this.setState()
-    })
+    e.stopPropagation();
+
+    if (e.target.dataset.contactid) {
+      axios.post(`http://localhost:${PORT}/user/contacts/delete`, {
+        userId: this.props.userId,
+        contactId: e.target.dataset.contactid
+      })
+      .then(res => {
+        this.setState({ contacts: res.data})
+      })
+    }
   }
 
   addContact = (e) => {
-    axios.post(`http://localhost:${PORT}/contacts/create`, {
-      userId: this.props.userId,
-      contactId: e.target.value
-    })
-    .then(res => {
-      if (res.data.length && res.data.contacts.length) {
-        this.setState({ contacts: res.data.contacts });
-      }
-    })
-    .catch(err => {
-      console.log("Error while saving new contact", err);
-    }) 
+    e.stopPropagation();
+    if (e.target.dataset.contactid) {
+      axios.post(`http://localhost:${PORT}/user/contacts/create`, {
+        userId: this.props.userId,
+        contactId: e.target.dataset.contactid
+      })
+      .then(res => {
+        console.log("result from add contact : ", res)
+        if (res.data.length) {
+          this.setState({ contacts: res.data });
+        }
+      })
+      .catch(err => {
+        console.log("Error while saving new contact", err);
+      }) 
+    }
   }
 
   render() {
-    console.log("my current state : ", this.state);
     return (
       <div className='d-flex flex-column'>
         <span className='titreContact'>Contacts</span>
         <div>
           {
-            this.state.contacts.map(contact => {
+            this.state.contacts != undefined && this.state.contacts.map(contact => {
               return (
                 <div key={contact.id} className='blocContacts d-flex justify-content-start align-items-center' >
-                  <div onClick={this.props.getContactPosts}>
-                    <img src={contact.imgProfile} alt="img_profil" />
-                    <p>{contact.firstName} {contact.lastName}</p>
+                  <div className="contact d-flex align-items-center" data-contactid={contact.id} onClick={this.props.getContactPosts}>
+                    <img src={contact.profilePicturePath} alt={`${contact.firstName} ${contact.lastName}`} data-contactid={contact.id}/>
+                    <p data-contactid={contact.id}>{contact.firstName} {contact.lastName}</p>
                   </div>
                   {
                     this.state.removeContact
-                    ? <div>
-                        <AiOutlineMinusCircle value={contact.id} onClick={this.eraseContact}/>
-                      </div>
+                    ? <button data-contactid={contact.id} onClick={this.eraseContact} >
+                        {/* <AiOutlineMinusCircle /> */} Remove
+                      </button>
                     : "" 
                   }
                 </div>

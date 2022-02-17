@@ -22,16 +22,16 @@ export default class SearchContact extends React.Component {
       clearTimeout(this.searchTimeout);
     }
 
-    const contactKeyword = e.target.value;
-    // const userId = this.props.userId;
+    if (!e.target.value) 
+      return;
 
+    const contactKeyword = e.target.value;
     this.searchTimeout = setTimeout(() => {
       axios.post(`http://localhost:${PORT}/user/filter`, {
         filter: contactKeyword,
         userId: this.props.userId
       })
         .then(res => {
-          console.log("results from contact search by keyword : ", res);
           if (res.data.length) {
             this.setState({ searchResults: res.data })
           } else {
@@ -56,11 +56,12 @@ export default class SearchContact extends React.Component {
             ?
             this.state.searchResults.map(contact => {
               return (
-                <div className='d-flex justify-content-center align-items-start ms-5' key={contact.id}>
+                <div className='d-flex justify-content-center align-items-start ms-5' 
+                      key={contact.id}>
                   <p>#{contact.firstName} {contact.lastName}</p>
-                  <div className='ms-3'>
-                    <AiOutlinePlusCircle />
-                  </div>
+                  <button className='ms-3' data-contactid={contact.id} onClick={this.props.addContact}>
+                    {/* <AiOutlinePlusCircle /> */} +
+                  </button>
                 </div>
               )
             })
