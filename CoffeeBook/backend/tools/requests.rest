@@ -68,9 +68,20 @@ Content-Type: application/json
 
 
 
-### Get Latest Posts
+### Get all posts by order of creation with offset=request and limit=10
 POST http://localhost:5000/latestposts
+Content-Type: application/json
 
+{
+    "offset": 0
+}
+### Get all posts by order of average note with offset=request and limit=10
+POST http://localhost:5000/bestposts
+Content-Type: application/json
+
+{
+    "offset": 0
+}
 
 ### Subscribe
 POST http://localhost:5000/subscribe
