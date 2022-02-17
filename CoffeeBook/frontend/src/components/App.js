@@ -1,5 +1,4 @@
 import React from 'react';
-import SearchCategory from './category/SearchCategory';
 import CategoryFilter from './category/CategoryFilter';
 import MyCategories from './category/MyCategories';
 import Contact from './contact/Contact';
@@ -8,10 +7,9 @@ import Post from './postSection/post/Post';
 import Actualites from './postSection/actualites/Actualites';
 import LogoCB from './logo/LogoCB';
 import CreatePost from './postSection/createPost/CreatePost';
-import Home from './home/Home';
 import Login from './login/Login';
 import Subscribe from './subscribe/Subscribe';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
@@ -147,25 +145,6 @@ class App extends React.Component {
     });
   };
 
-  // Get posts from contacts
-  // The request should return :
-  // - "firstName","lastName" : the firstname and lastname of the contact
-  // - "items" : the posts authored by the contact by descending order
-  //   of their creation date
-  getContactPosts = async (e) => {
-    const contactId = e.target.value;
-    const contactPosts = await axios.post(`http://localhost:${PORT}/getcontactposts`, { contactId });
-    this.setState({
-      posts: contactPosts.data,
-      news: false,
-      best: false,
-      myCatId: 0,
-      myContactId: contactId,
-      titleKeyword: '',
-      feedMassage: `Les derniers posts de ${contactPosts.firstName} ${contactPosts.lastName}`,
-    });
-  };
-
   // Get posts which title contain a keyword
   // The request should return :
   // -
@@ -185,7 +164,11 @@ class App extends React.Component {
 
   // Display the createPost component
   createNewPost = () => {
-    this.setState({ createNewPost: true });
+    if (!this.state.createNewPost) {
+      this.setState({ createNewPost: true });
+    } else {
+      this.setState({ createNewPost: false });
+    }
   };
 
   // Get posts from contacts
@@ -321,7 +304,10 @@ class App extends React.Component {
                 <HeaderProfile userId={this.state.id} isAdmin={this.state.isAdmin} firstName={this.state.firstName} lastName={this.state.lastName} profilePicturePath={this.state.profilePicturePath} userHasLogout={this.userHasLogout} />
               </div>
               <div className='sectionPost'>
-                <Post getPostsWithKeyword={this.getPostsWithKeyword} createNewPost={this.createNewPost} />
+                <Post getPostsWithKeyword={this.getPostsWithKeyword} createNewPost={this.createNewPost} 
+                  createPostBtnLabel={
+                    this.state.createNewPost ? 'Fermer' : 'Nouveau Post'
+                  }/>
                 {this.state.createNewPost ? <CreatePost saveNewPost={this.saveNewPost} /> : ''}
               </div>
               <div>
