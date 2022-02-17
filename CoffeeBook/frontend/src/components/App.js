@@ -150,18 +150,23 @@ class App extends React.Component {
   // - "items" : the posts authored by the contact by descending order
   //   of their creation date
   getContactPosts = async (e) => {
-    const contactId = e.target.value;
-    const contactPosts = await axios.post(`http://localhost:${PORT}/getcontactposts`, { contactId });
-    this.setState({
-      posts: contactPosts.data,
-      news: false,
-      best: false,
-      myCatId: 0,
-      myContactId: contactId,
-      titleKeyword: '',
-      feedMassage: `Les derniers posts de ${contactPosts.firstName} ${contactPosts.lastName}`,
-    });
-  };
+    e.stopPropagation();
+    console.log("getContactPosts is called with userId : ", e.target.dataset.contactid);
+    const contactId = parseInt(e.target.dataset.contactid);
+    console.log("contactId : ", contactId);
+    if (contactId) {
+      const contactPosts = await axios.post(`http://localhost:${PORT}/getuserposts`, { userId: contactId });
+      this.setState({
+        posts: contactPosts.data,
+        news: false,
+        best: false,
+        myCatId: 0,
+        myContactId: contactId,
+        titleKeyword: '',
+        feedMassage: `Les derniers posts de ${contactPosts.firstName} ${contactPosts.lastName}`,
+      });
+    };
+  }
 
   // Get posts which title contain a keyword
   // The request should return :

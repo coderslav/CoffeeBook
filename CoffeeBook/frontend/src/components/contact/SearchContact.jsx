@@ -56,11 +56,12 @@ export default class SearchContact extends React.Component {
             ?
             this.state.searchResults.map(contact => {
               return (
-                <div className='d-flex justify-content-center align-items-start ms-5' data-contactid={contact.id} key={contact.id} onClick={this.props.addContact} >
+                <div className='d-flex justify-content-center align-items-start ms-5' 
+                      key={contact.id}>
                   <p>#{contact.firstName} {contact.lastName}</p>
-                  <div className='ms-3'>
-                    <AiOutlinePlusCircle  />
-                  </div>
+                  <button className='ms-3' data-contactid={contact.id} onClick={this.props.addContact}>
+                    {/* <AiOutlinePlusCircle /> */} +
+                  </button>
                 </div>
               )
             })
