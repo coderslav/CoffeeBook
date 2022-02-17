@@ -31,8 +31,7 @@ POST http://localhost:5000/user/filter
 Content-Type: application/json
 
 {
-    "filter": "mary",
-    "userId": 99
+    "filter": "Tristan"
 }
 ### Get all contacts of User
 POST http://localhost:5000/user/contacts

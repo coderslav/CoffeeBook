@@ -1,4 +1,4 @@
-async function requireAnon(req, res, next) {
+async function requireAnonym(req, res, next) {
     if (!req.session.user) {
         next();
     } else {
@@ -6,4 +6,4 @@ async function requireAnon(req, res, next) {
     }
 }
 
-module.exports = requireAnon;
+module.exports = requireAnonym;

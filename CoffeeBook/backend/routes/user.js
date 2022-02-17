@@ -84,7 +84,7 @@ router.delete('/:userId/category/:categoryId', requireAuthenticate, async (req, 
 
 // Get users by filter
 router.post('/filter', requireAuthenticate, async (req, res) => {
-    if (req.body.filter && req.body.userId) {
+    if (req.body.filter && req.session.user.id) {
         const filterCondition = req.body.filter.toString().toLowerCase().replaceAll(' ', '');
         try {
             let allUsers = await User.findAll({ raw: true });
@@ -94,7 +94,7 @@ router.post('/filter', requireAuthenticate, async (req, res) => {
             });
             let filteredUsers = allUsersOutput.filter((user) => {
                 let nameConcat = (user.firstName + user.lastName).toLowerCase().replaceAll(' ', '');
-                return nameConcat.includes(filterCondition) && user.id !== req.body.userId;
+                return nameConcat.includes(filterCondition) && user.id !== req.session.user.id;
             });
             res.status(200).send(filteredUsers);
         } catch (error) {
