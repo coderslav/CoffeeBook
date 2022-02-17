@@ -3,7 +3,7 @@ import './category.css'
 
 export default function SearchCategory(props) {
     return (
-        <div className='container-fluid searchCategory'>
+        <div className='searchCategory mt-3'>
             <span>{props.title}</span>
             <input className='container-fluid' type="text" placeholder={props.placeholder} />
         </div>

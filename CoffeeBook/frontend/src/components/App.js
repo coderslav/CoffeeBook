@@ -110,7 +110,7 @@ class App extends React.Component {
   // - "items" : posts by descending order of their average vote
   getBest = async () => {
     try {
-      const bestReq = `http://localhost:${PORT}/getbestposts`;
+      const bestReq = `http://localhost:${PORT}/bestposts`;
       const bestPosts = await axios.post(bestReq);
       this.setState({
         posts: bestPosts.data,
