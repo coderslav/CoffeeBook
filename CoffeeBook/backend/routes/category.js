@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Category } = require('../models/index');
+const { Category, UserCategory } = require('../models/index');
 const requireAuthenticate = require('../middlewares/requireAuthenticate');
 const requireAdmin = require('../middlewares/requireAdmin');
 
@@ -31,5 +31,15 @@ router.post('/new', requireAdmin, async (req, res) => {
         })
     );
 });
+
+router.post("/filter", requireAuthenticate, async (req, res) => {
+    const { userId, keyword } = req.body;
+    if (userId && keyword) {
+        const filter = keyword.toString().toLowerCase().replaceAll(" ", "");
+        const allCategories = await Category.findAll({ raw: true });
+        const kFiltered = allCategories.filter(cat => cat.contains(filter));
+    }
+    
+})
 
 module.exports = router;

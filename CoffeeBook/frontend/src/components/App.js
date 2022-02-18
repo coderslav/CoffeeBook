@@ -5,6 +5,7 @@ import Contact from './contact/Contact';
 import HeaderProfile from './profileSection/HeaderProfile';
 import Post from './postSection/post/Post';
 import Actualites from './postSection/actualites/Actualites';
+import CreateCategory from './category/CreateCategory';
 import LogoCB from './logo/LogoCB';
 import CreatePost from './postSection/createPost/CreatePost';
 import Login from './login/Login';
@@ -296,6 +297,9 @@ class App extends React.Component {
           <div className='row '>
             <div className='col-3 category maxHeight'>
               <LogoCB />
+              {
+                this.state.isAdmin ? <CreateCategory /> : ""
+              }
               <CategoryFilter getLatest={this.getLatest} getBest={this.getBest} />
               <MyCategories userId={this.state.id} getCategoryPosts={this.getCategoryPosts} />
             </div>
@@ -315,7 +319,7 @@ class App extends React.Component {
               </div>
             </div>
             <div className='col-3 contact d-flex flex-row justify-content-center align-items-start '>
-              <Contact userId={this.state.id} getContactPosts={this.getContactPosts} />
+              <Contact userId={this.state.id} getContactPosts={this.getContactPosts} isAdmin={this.state.isAdmin} />
             </div>
           </div>
         </Route>

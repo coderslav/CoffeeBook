@@ -2,6 +2,7 @@ import React from 'react'
 import SearchContact from './SearchContact.jsx';
 import './contact.css'
 import { AiOutlineMinusCircle } from "react-icons/ai";
+import AdminFilters from './AdminFilters.jsx';
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
@@ -70,6 +71,7 @@ export default class Contact extends React.Component {
   render() {
     return (
       <div className='d-flex flex-column'>
+        { this.props.isAdmin ? <AdminFilters /> : "" }
         <span className='titreContact'>Contacts</span>
         <div>
           {
