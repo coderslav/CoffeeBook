@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Post } = require('../models');
+const { Post, Category, User } = require('../models');
 const requireAuthenticate = require('../middlewares/requireAuthenticate');
 
 router.post('/', requireAuthenticate, (req, res) => {
@@ -40,14 +40,32 @@ router.post('/bestposts', requireAuthenticate, async (req, res) => {
 router.post('/getuserposts', requireAuthenticate, async (req, res) => {
     const posts = JSON.parse(
         JSON.stringify(
-            await Post.findAll({
-                where: { userId: req.body.userId },
-                order: [['createdAt', 'DESC']],
-                include: ['postCategory', 'postUser'],
+            await User.findOne({
+                where : { id : req.body.userId },
+                include: { 
+                    model: Post, 
+                    as: "userPost", 
+                    order: [['createdAt', 'DESC']],
+                    include: ['postCategory', 'postUser'],
+                }
             })
         )
     );
     res.send(posts);
 });
+
+router.post('/getcategoryposts', requireAuthenticate, async (req, res) => {
+    const posts = JSON.parse(
+        JSON.stringify(
+            await Category.findOne({
+                where: {
+                    id: req.body.categoryId 
+                },
+                include: { model: Post, as: 'categoryPost', include: ['postCategory', 'postUser'] }
+            })
+        )
+    ); 
+    res.send(posts);
+})
 
 module.exports = router;
