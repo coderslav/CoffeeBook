@@ -5,7 +5,6 @@ const requireAuthenticate = require('../middlewares/requireAuthenticate');
 
 router.post('/', requireAuthenticate, (req, res) => {
     res.send(`Welcome to CoffeeBook ! \n`);
-    console.log(req.session.user);
 });
 
 // Get all posts by order of creation with offset=request and limit=10

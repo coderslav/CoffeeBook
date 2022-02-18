@@ -10,11 +10,12 @@ import '../actualites/actualites.css'
 export default function PostActu({ post }) {
     return (
         <div className="postActu">
-            {
+            {/* TODO fix categories list for each post in feed */}
+            {/* {
                 post.postCategory.length
                     ? <div>{post.postCategory.map(c => <span key={c.id}>{c.name}</span>)}</div>
                     : ""
-            }
+            } */}
             <div className="postActuHeader">
                 <p>{post.postUser.firstName} {post.postUser.lastName}<button className='btnSuivre'>suivre l'auteur</button></p>
                 <div className="icones">

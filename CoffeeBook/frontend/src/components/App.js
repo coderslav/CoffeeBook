@@ -35,6 +35,7 @@ class App extends React.Component {
       myContact: 0,
       titleKeyword: '',
       feedMessage: '',
+      allCategories: []
     };
   }
 
@@ -127,6 +128,19 @@ class App extends React.Component {
     }
   };
 
+
+  //Get all categories
+  getAllCategories = async()=>{
+    try {
+      const allCategories = await axios.post(`http://localhost:${PORT}/categories`)
+      this.setState({allCategories: allCategories.data})
+    } catch (error) {
+      localStorage.clear();
+      window.location.reload();
+      console.log('Error getting all categories: ', error);
+    }
+  }
+
   // Get posts by category.
   // The request should return :
   // - "categoryName" : The name of the category
@@ -207,17 +221,19 @@ class App extends React.Component {
     for (let [key, value] of newPostForm) {
       newPost[key] = value;
     }
-    const newPosts = await axios.post(`http://localhost:${PORT}/post/create`, { newPost });
-    this.setState({
-      createNewPost: false,
-      posts: newPosts.data,
-      news: true,
-      best: false,
-      myCat: 0,
-      myContact: 0,
-      titleKeyword: '',
-      feedMessage: 'Les dernières actualités',
-    });
+    newPost.categoryId ? newPost.categoryId = newPost.categoryId.split('*').map((catId)=>parseInt(catId)): newPost.categoryId = false;
+    try {
+      const newPosts = await axios.post(`http://localhost:${PORT}/post/create`, { ...newPost });
+      if (newPosts.data.length > 0){
+        this.setState({postsOffset: 0, posts: newPosts.data, createNewPost: false})
+      }else{
+        this.setState({createNewPost: false})
+        alert('Post is already exist')
+      }
+      
+    } catch (error) {
+      console.log('Error getting all categories: ', error);
+    }
   };
 
   // Route to delete a post by its id
@@ -309,10 +325,8 @@ class App extends React.Component {
               </div>
               <div className='sectionPost'>
                 <Post getPostsWithKeyword={this.getPostsWithKeyword} createNewPost={this.createNewPost} 
-                  createPostBtnLabel={
-                    this.state.createNewPost ? 'Fermer' : 'Nouveau Post'
-                  }/>
-                {this.state.createNewPost ? <CreatePost saveNewPost={this.saveNewPost} /> : ''}
+                   createNewPostStatus ={this.state.createNewPost} />
+                {this.state.createNewPost ? <CreatePost saveNewPost={this.saveNewPost} createNewPost={this.createNewPost} allCategories={this.state.allCategories} getAllCategories={this.getAllCategories} /> : ''}
               </div>
               <div>
                 <Actualites feedMessage={this.state.feedMessage} posts={this.state.posts} addActualites={this.addActualites} userId={this.state.id} isAdmin={this.state.isAdmin}/>

@@ -10,6 +10,7 @@ const userRouter = require('./routes/user');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const subscribeRouter = require('./routes/subscribe');
+const postRouter = require('./routes/post')
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/logout', logoutRouter);
 app.use('/subscribe', subscribeRouter);
 app.use('/categories', categoryRouter);
 app.use('/user', userRouter);
+app.use('/post', postRouter);
 
 // start the server
 app.listen(process.env.PORT || 5000, () => {

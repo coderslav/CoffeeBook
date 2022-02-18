@@ -3,9 +3,8 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
-const requireAnonym = require('../middlewares/requireAnonym');
 
-router.post('/', requireAnonym, async (req, res) => {
+router.post('/', async (req, res) => {
     // Authenticate user
     try {
         const { email, password } = req.body;
