@@ -88,17 +88,11 @@ POST http://localhost:5000/subscribe
 Content-Type: application/json
 
 {
-    "email": "newer@tester.com",
-    "password": "someP125",
-    "firstName": "Tran",
-    "lastName": "Las"
+    "email": "newuser@tester.com",
+    "password": "somePass12345",
+    "firstName": "Tristan",
+    "lastName": "Lucas"
 }
-# {
-#     "email": "newuser@tester.com",
-#     "password": "somePass12345",
-#     "firstName": "Tristan",
-#     "lastName": "Lucas"
-# }
 ### Admin credentials:
 ### {
 ###     "email": "new@mail.com",
