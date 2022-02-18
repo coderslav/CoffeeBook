@@ -269,7 +269,7 @@ class App extends React.Component {
       const isAdmin = localStorage.getItem("isAdmin") === "false" ? false : true;
 
       this.setState({
-        id: localStorage.getItem('id'),
+        id: parseInt(localStorage.getItem('id')),
         firstName: localStorage.getItem('firstName'),
         lastName: localStorage.getItem('lastName'),
         isAdmin: isAdmin,
@@ -315,7 +315,7 @@ class App extends React.Component {
                 {this.state.createNewPost ? <CreatePost saveNewPost={this.saveNewPost} /> : ''}
               </div>
               <div>
-                <Actualites feedMessage={this.state.feedMessage} posts={this.state.posts} addActualites={this.addActualites} />
+                <Actualites feedMessage={this.state.feedMessage} posts={this.state.posts} addActualites={this.addActualites} userId={this.state.id} isAdmin={this.state.isAdmin}/>
               </div>
             </div>
             <div className='col-3 contact d-flex flex-row justify-content-center align-items-start '>
