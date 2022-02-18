@@ -12,7 +12,7 @@ export default function PostActu({ post }) {
         <div className="postActu">
             {
                 post.postCategory.length
-                    ? <div>{post.postCategory.map(c => <span key={c.id}>{c.name}</span>)}</div>
+                    ? <div>{post.postCategory.map(c => <span style={{ "marginRight": "8px" }} key={c.id}>{c.name}</span>)}</div>
                     : ""
             }
             <div className="postActuHeader">
