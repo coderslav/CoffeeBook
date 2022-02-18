@@ -13,8 +13,9 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 500,
-  bgcolor: 'background.paper',
-  border: '2px solid #000', 
+  bgcolor: '#504d4d',
+  border: '2px solid #000',
+  borderRadius: '10px',
   p: 4,
   height: '370px',
 
@@ -41,17 +42,20 @@ export default function BasicModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div className='dataProfile container-fluid'>
+          <div className='dataProfile container-fluid '>
             <p>Les données de votre profil</p>
-            <form method="POST">
+            <form className='container' method="POST">
               <div className='fieldName' >
                 <input className='col-5' name="firstName" type="text" placeholder='Prénom' />
-                <input className='col-5'  name="lastName" type="text" placeholder='Nom' />
-
+                <input className='col-5' name="lastName" type="text" placeholder='Nom' />
               </div>
-              <input className="col-10" name="email" type="text" placeholder='E-mail' />
-              <input className="col-10" name="password" type="text" placeholder="Mot de passe" />
-              <button type="submit">Confirmer</button>
+              <div className="fieldName">
+                <input className="col-12 d-flex justify-content-center" name="email" type="text" placeholder='E-mail' />
+              </div>
+              <div className="fieldName ">
+                <input className="col-12 inputPwd" name="password" type="text" placeholder="Mot de passe" />
+              </div>
+              <button className='col-8 d-flex align-items-center justify-content-center' type="submit">Confirmer</button>
             </form>
           </div></Box>
       </Modal>
