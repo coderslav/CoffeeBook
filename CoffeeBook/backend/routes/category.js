@@ -37,8 +37,23 @@ router.post("/filter", requireAuthenticate, async (req, res) => {
     if (userId && keyword) {
         const filter = keyword.toString().toLowerCase().replaceAll(" ", "");
         const allCategories = await Category.findAll({ raw: true });
-        const kFiltered = allCategories.filter(cat => cat.contains(filter));
-    }
+        const kFiltered = allCategories.filter(cat => {
+            let smallCat = cat.name.toLowerCase();
+            return smallCat.includes(filter)
+        });
+        const userCategories = await UserCategory.findAll({ 
+            where: { userId }, 
+            attributes: [ "categoryId" ],
+            raw: true 
+        });
+        const catIds = userCategories.map(cat => cat.categoryId);
+        const filtered = userCategories.length 
+            ? kFiltered.filter(cat => !catIds.includes(cat.id))
+            : kFiltered
+        res.send(filtered);
+    } else [
+        res.status(404).send("Missing user id or keyword")
+    ]
     
 })
 

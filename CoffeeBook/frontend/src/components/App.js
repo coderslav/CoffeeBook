@@ -133,16 +133,16 @@ class App extends React.Component {
   // - "items" : the posts in that category by descending order of their
   //   creation date
   getCategoryPosts = async (e) => {
-    const categoryId = e.target.value;
+    const categoryId = e.target.dataset.catid;
     const catPosts = await axios.post(`http://localhost:${PORT}/getcategoryposts`, { categoryId });
     this.setState({
-      posts: catPosts.data,
+      posts: catPosts.data.categoryPost,
       news: false,
       best: false,
       myCatId: categoryId,
       myContactId: 0,
       titleKeyword: '',
-      feedMessage: `Les derniers post de la catégorie ${catPosts.name}`,
+      feedMessage: `Les derniers post de la catégorie ${catPosts.data.name}`,
     });
   };
 
@@ -179,19 +179,18 @@ class App extends React.Component {
   //   of their creation date
   getContactPosts = async (e) => {
     e.stopPropagation();
-    console.log("getContactPosts is called with userId : ", e.target.dataset.contactid);
     const contactId = parseInt(e.target.dataset.contactid);
-    console.log("contactId : ", contactId);
     if (contactId) {
       const contactPosts = await axios.post(`http://localhost:${PORT}/getuserposts`, { userId: contactId });
+      console.log("fetched contact posts : ", contactPosts);   
       this.setState({
-        posts: contactPosts.data,
+        posts: contactPosts.data.userPost,
         news: false,
         best: false,
         myCatId: 0,
         myContactId: contactId,
         titleKeyword: '',
-        feedMassage: `Les derniers posts de ${contactPosts.firstName} ${contactPosts.lastName}`,
+        feedMessage: `Les derniers posts de ${contactPosts.data.firstName} ${contactPosts.data.lastName}`,
       });
     };
   }
