@@ -73,19 +73,19 @@ export default class Contact extends React.Component {
       <div className='d-flex flex-column'>
         { this.props.isAdmin ? <AdminFilters /> : "" }
         <span className='titreContact'>Contacts</span>
-        <div>
+        <div className=''>
           {
             this.state.contacts != undefined && this.state.contacts.map(contact => {
               return (
-                <div key={contact.id} className='blocContacts d-flex justify-content-start align-items-center' >
+                <div key={contact.id} className='blocContacts d-flex justify-content-between align-items-center' >
                   <div className="contact d-flex align-items-center" data-contactid={contact.id} onClick={this.props.getContactPosts}>
                     <img src={contact.profilePicturePath} alt={`${contact.firstName} ${contact.lastName}`} data-contactid={contact.id}/>
                     <p data-contactid={contact.id}>{contact.firstName} {contact.lastName}</p>
                   </div>
                   {
                     this.state.removeContact
-                    ? <button data-contactid={contact.id} onClick={this.eraseContact} >
-                        {/* <AiOutlineMinusCircle /> */} Remove
+                    ? <button className="minusBtn" data-contactid={contact.id} onClick={this.eraseContact} >
+                        {/* <AiOutlineMinusCircle /> */} -
                       </button>
                     : "" 
                   }
@@ -93,18 +93,16 @@ export default class Contact extends React.Component {
               )
             })
           }
-        </div>
-        <div className=''>
-          <button className='btnSeeMore'>Voir plus</button>
-        </div>
-        <div className="editList">
-          <button className='bntEdit' onClick={this.allowRemove}>Editer la liste</button>
-        </div>
-        <SearchContact 
+        </div>        
+        <button className='btnSeeMore'>Voir plus</button>    
+        <button className='bntEdit' onClick={this.allowRemove}>Editer la liste</button>
+        <div className='searchContact'>
+          <SearchContact 
           title={"Chercher un contact"} 
           placeholder={"contact"} 
           userId={this.props.userId} 
           addContact={this.addContact} />
+        </div>
       </div>
     )
   }

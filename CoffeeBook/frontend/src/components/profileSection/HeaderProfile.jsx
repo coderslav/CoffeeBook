@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './headerProfile.css';
-import man from '../../assets/man.jpg';
 import { BsFillGearFill } from 'react-icons/bs';
-import { BsFillPencilFill } from 'react-icons/bs';
+
 import { VscDebugDisconnect } from 'react-icons/vsc';
 import { MdDeleteForever } from 'react-icons/md';
+import ModalParameterProfile from '../elements/ModalParameterProfile'
+
 
 export class HeaderProfile extends Component {
     render() {
@@ -20,12 +21,7 @@ export class HeaderProfile extends Component {
                             <BsFillGearFill />
                         </a>
                         <ul className='dropdown-menu menuParameter'>
-                            <li className='d-flex justify-content-start align-items-center ml-2'>
-                                <button className='dropdown-item'>
-                                    <BsFillPencilFill />
-                                    Modifier les données
-                                </button>
-                            </li>
+                            <ModalParameterProfile />
                             <li className='d-flex justify-content-start align-items-center'>
                                 <button className='dropdown-item' onClick={this.props.userHasLogout}>
                                     <VscDebugDisconnect />

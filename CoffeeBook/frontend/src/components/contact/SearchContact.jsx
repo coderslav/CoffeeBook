@@ -46,7 +46,7 @@ export default class SearchContact extends React.Component {
 
   render() {
     return (
-      <div className='container-fluid searchCategory'>
+      <div className='container-fluid searchContact'>
         <span>{this.props.title}</span>
         <input 
           className='container-fluid' type="text" placeholder={this.props.placeholder} 
@@ -56,7 +56,7 @@ export default class SearchContact extends React.Component {
             ?
             this.state.searchResults.map(contact => {
               return (
-                <div className='d-flex justify-content-center align-items-start ms-5' 
+                <div className='listContactCategory d-flex ms-3' 
                       key={contact.id}>
                   <p>#{contact.firstName} {contact.lastName}</p>
                   <button className='ms-3' data-contactid={contact.id} onClick={this.props.addContact}>
