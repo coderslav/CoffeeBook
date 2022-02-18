@@ -1,19 +1,23 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import './modalParameterProfile.css';
 import Modal from '@mui/material/Modal';
-import { BsFillGearFill } from "react-icons/bs";
+import Box from '@mui/material/Box';
+import { BsFillPencilFill } from 'react-icons/bs';
+
+
+
 
 const style = {
   position: 'relative',
-  top: '10%',
-  left: '60%',
+  top: '40%',
+  left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 500,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
+  border: '2px solid #000', 
   p: 4,
+  height: '370px',
+
 };
 
 export default function BasicModal() {
@@ -23,7 +27,12 @@ export default function BasicModal() {
 
   return (
     <div>
-      <BsFillGearFill onClick={handleOpen} />
+      <li onClick={handleOpen} className='d-flex justify-content-start align-items-center ml-2'>
+        <button className='dropdown-item'>
+          <BsFillPencilFill />
+          Modifier les données
+        </button>
+      </li>
 
       <Modal
         open={open}
@@ -32,8 +41,19 @@ export default function BasicModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">Supprimer le post</Typography>
-        </Box>
+          <div className='dataProfile container-fluid'>
+            <p>Les données de votre profil</p>
+            <form method="POST">
+              <div className='fieldName' >
+                <input className='col-5' name="firstName" type="text" placeholder='Prénom' />
+                <input className='col-5'  name="lastName" type="text" placeholder='Nom' />
+
+              </div>
+              <input className="col-10" name="email" type="text" placeholder='E-mail' />
+              <input className="col-10" name="password" type="text" placeholder="Mot de passe" />
+              <button type="submit">Confirmer</button>
+            </form>
+          </div></Box>
       </Modal>
     </div>
   );
