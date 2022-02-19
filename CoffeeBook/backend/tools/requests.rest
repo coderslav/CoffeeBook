@@ -57,7 +57,15 @@ Content-Type: application/json
     "contactId": 33
 }
 
+### Create new Post
+POST http://localhost:5000/post/create
+Content-Type: application/json
 
+{
+    "categoryId": [3, 5, 7],
+    "postTitle": "New Post 11",
+    "postContent": "Lorem Porem 11"
+}
 ### Get Users Posts
 POST http://localhost:5000/getuserposts
 Content-Type: application/json
@@ -65,9 +73,6 @@ Content-Type: application/json
 {
     "userId": 1
 }
-
-
-
 ### Get all posts by order of creation with offset=request and limit=10
 POST http://localhost:5000/latestposts
 Content-Type: application/json

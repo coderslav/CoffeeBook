@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: 'https://picsum.photos/300/300',
                 allowNull: false,
             },
+            token: {
+                type: DataTypes.STRING,
+                defaultValue: null,
+            },
         },
         {
             sequelize,
