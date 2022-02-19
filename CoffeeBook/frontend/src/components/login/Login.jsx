@@ -42,7 +42,7 @@ export default class Login extends Component {
                         <img src={process.env.PUBLIC_URL + `./images/iconeCB.png`} alt='Logo CoffeeBook' className='logoLogin' />
                         <div>
                             <h1>CoffeeBook</h1>
-                            <h4>La réseau sociale du partage de l'actualité</h4>
+                            <h4>La réseau social de partage d'actualités</h4>
                         </div>
                     </header>
                     <div className='card shadow-2-strong sectionLogin' style={{ borderRadius: '1rem' }}>
