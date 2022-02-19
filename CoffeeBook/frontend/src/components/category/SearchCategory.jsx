@@ -55,7 +55,7 @@ export default class SearchCategory extends React.Component {
           ? 
           this.state.searchResults.map(category => {
             return (
-              <div className='d-flex justify-content-center align-items-start ms-5'
+              <div className='itemSearchCategory d-flex justify-content-between align-items-baseline ms-3'
               key={category.id}>
               <p># {category.name}</p>
               <button className='ms-3' data-catid={category.id} onClick={this.props.addCategory}>
