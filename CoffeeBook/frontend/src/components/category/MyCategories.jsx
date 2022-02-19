@@ -70,20 +70,20 @@ export default class MyCategories extends Component {
 
   render() {
     return (
-      <>
+      <div className='myCategories d-flex flex-column'>
         <div className='text-light'>
-          <div className='d-flex justify-content-start fs-4 marginT'>Mes catégories</div>
+          <div className='d-flex justify-content-center fs-4 marginT'>Mes catégories</div>
         </div>
-        <div className='d-flex justify-content-start align-items-start flex-column mt-3'>
+        <div className='d-flex justify-content-start align-items-baseline flex-column mt-3'>
           {
             this.state.categories !== undefined && this.state.categories.map(cat => {
               return (
-                <div className='d-flex justify-content-center align-items-start ms-5' key={cat.id}>
+                <div className='listCategory container d-flex justify-content-between align-items-center ms-1 me-3' key={cat.id}>
                   <p data-catid={cat.id} onClick={this.props.getCategoryPosts}>#{cat.name}</p>
                   {
                     this.state.removeCategory
-                      ? <button data-catid={cat.id} onClick={this.eraseCategory} className='ms-3'>
-                        {/* <AiOutlineMinusCircle /> */}Remove
+                      ? <button data-catid={cat.id} onClick={this.eraseCategory} className='btnMinus ms-3'>
+                        {/* <AiOutlineMinusCircle /> */} -
                       </button>
                       : ""
                   }
@@ -92,14 +92,10 @@ export default class MyCategories extends Component {
             })
           }
         </div>
-        <div className=''>
-          <button className='btnSeeMore'>Voir plus</button>
-        </div>
-        <div className="editList">
-          <button className='bntEdit' onClick={this.allowRemove}>Editer la liste</button>
-        </div>
+        <button className='btnSeeMore'>Voir plus</button>  
+        <button className='bntEdit' onClick={this.allowRemove}>Editer la liste</button>       
         <SearchCategory title={"Chercher une catégorie"} placeholder={"catégorie"} addCategory={this.addCategory} userId={this.props.userId} />
-      </>
+      </div>
     )
   }
 }
