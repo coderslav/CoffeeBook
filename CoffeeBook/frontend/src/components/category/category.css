@@ -2,6 +2,9 @@
   margin-bottom: 8px;
   display: flex;
 }
+.searchCategory input{
+  margin-bottom:15px;
+}
 .categoryFilter {
   margin:0 auto;  
 }
@@ -17,6 +20,17 @@
   font-size:14px;
 }
 .listCategory p{
-  margin-bottom: 0;
+  margin-bottom: 6px;
   height:40px;
+}
+.itemSearchCategory p{
+  padding-left: 12px;
+}
+.itemSearchCategory button{
+  border-radius: 50%;
+  padding: 0px 12px;
+  font-size: 25px;
+  background-color: #383735;
+  color:#cecece;
+  border:none;
 }

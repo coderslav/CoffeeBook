@@ -78,15 +78,15 @@ export default class MyCategories extends Component {
           {
             this.state.categories !== undefined && this.state.categories.map(cat => {
               return (
-                <div className='listCategory container d-flex justify-content-between align-items-baseline ms-1' key={cat.id}>
+                <div className='listCategory container d-flex justify-content-between align-items-center ms-1 me-3' key={cat.id}>
                   <p data-catid={cat.id} onClick={this.props.getCategoryPosts}>#{cat.name}</p>
-                  <div>{
+                  {
                     this.state.removeCategory
                       ? <button data-catid={cat.id} onClick={this.eraseCategory} className='btnMinus ms-3'>
                         {/* <AiOutlineMinusCircle /> */} -
                       </button>
                       : ""
-                  }</div>
+                  }
                 </div>
               )
             })
