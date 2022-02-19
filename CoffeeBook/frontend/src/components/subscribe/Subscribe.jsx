@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../login/login.css';
+import './subscribe.css'
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 const PORT = 5000;
@@ -33,6 +34,13 @@ export default class Subscribe extends Component {
             });
     };
 
+    //fonction de comparaison des passwords
+    checkPwdMatch = (e) => {
+        const password = 
+
+
+    }
+
     render() {
         return (
             <div className='container py-5 vh-100 d-flex justify-content-center align-items-center'>
@@ -59,9 +67,11 @@ export default class Subscribe extends Component {
                                 <div className='form-outline mb-4'>
                                     <input type='email' name='email' placeholder='Email' id='typeEmailX-2' className='form-control form-control-lg' />
                                 </div>
-
                                 <div className='form-outline mb-4'>
                                     <input type='password' name='password' placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
+                                </div>
+                                <div className='form-outline mb-4'>
+                                    <input type='password' name='password' onKeyUp={checkPwdMatch} placeholder='Confirmer le mot de passe' id='confirmTypePasswordX-2' className='form-control form-control-lg' />
                                 </div>
 
                                 <button className='btn btnSubscribe btn-lg btn-block' type='submit'>
