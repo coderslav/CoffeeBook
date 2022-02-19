@@ -7,7 +7,7 @@ const requireAuthenticate = require('../middlewares/requireAuthenticate');
 async function getLatestsPosts(req) {
     const posts = await Post.findAll({
         order: [['createdAt', 'DESC']],
-        include: ['postCategory', 'postUser'],
+        include: ['postCategory', 'postUser', 'postComment'],
         offset: req.body.offset ? req.body.offset : 0,
         limit: 10,
     });

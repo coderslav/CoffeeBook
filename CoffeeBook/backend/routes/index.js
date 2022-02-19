@@ -28,7 +28,7 @@ router.post('/bestposts', requireAuthenticate, async (req, res) => {
         JSON.stringify(
             await Post.findAll({
                 order: [['voteAvg', 'DESC']],
-                include: ['postCategory', 'postUser'],
+                include: ['postCategory', 'postUser', 'postComment'],
                 offset: req.body.offset ? req.body.offset : 0,
                 limit: 10,
             })
@@ -46,7 +46,7 @@ router.post('/getuserposts', requireAuthenticate, async (req, res) => {
                     model: Post, 
                     as: "userPost", 
                     order: [['createdAt', 'DESC']],
-                    include: ['postCategory', 'postUser'],
+                    include: ['postCategory', 'postUser', 'postComment'],
                 }
             })
         )
@@ -61,7 +61,7 @@ router.post('/getcategoryposts', requireAuthenticate, async (req, res) => {
                 where: {
                     id: req.body.categoryId 
                 },
-                include: { model: Post, as: 'categoryPost', include: ['postCategory', 'postUser'] }
+                include: { model: Post, as: 'categoryPost', include: ['postCategory', 'postUser', 'postComment'] }
             })
         )
     ); 
