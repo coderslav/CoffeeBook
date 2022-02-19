@@ -14,7 +14,7 @@ router.post('/latestposts', requireAuthenticate, async (req, res) => {
         JSON.stringify(
             await Post.findAll({
                 order: [['createdAt', 'DESC']],
-                include: ['postCategory', 'postUser'],
+                include: ['postCategory', 'postUser', 'postComment'],
                 offset: req.body.offset ? req.body.offset : 0,
                 limit: 10,
             })
