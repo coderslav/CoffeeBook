@@ -17,7 +17,7 @@ const style = {
   border: '2px solid #000',
   borderRadius: '10px',
   p: 4,
-  height: '370px',
+  height: '440px',
 
 };
 
@@ -54,6 +54,9 @@ export default function BasicModal() {
               </div>
               <div className="fieldName ">
                 <input className="col-12 inputPwd" name="password" type="text" placeholder="Mot de passe" />
+              </div>
+              <div className="fieldName ">
+                <input className="col-12 inputPwd" name="password2" type="text" placeholder="Confirmer le mot de passe" />
               </div>
               <button className='col-8 d-flex align-items-center justify-content-center' type="submit">Confirmer</button>
             </form>

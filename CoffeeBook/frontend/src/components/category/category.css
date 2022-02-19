@@ -19,6 +19,9 @@
 .myCategories button.btnSeeMore, .myCategories button.bntEdit{
   font-size:14px;
 }
+.listCategory{
+  padding-right: 4px;
+}
 .listCategory p{
   margin-bottom: 6px;
   height:40px;
