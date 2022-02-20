@@ -78,7 +78,15 @@ POST http://localhost:5000/latestposts
 Content-Type: application/json
 
 {
-    "offset": 0
+    "offset": 50
+}
+### Get all posts by order of creation and keyword with offset=request and limit=10
+POST http://localhost:5000/postsbykeyword
+Content-Type: application/json
+
+{
+    "filter": "t",
+    "offset": 10
 }
 ### Get all posts by order of average note with offset=request and limit=10
 POST http://localhost:5000/bestposts
