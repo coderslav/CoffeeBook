@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.User, { foreignKey: { name: 'userId', allowNull: false }, onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'postUser' });
             this.belongsToMany(models.User, { through: models.PostComment, foreignKey: 'postId', as: 'postUserComment' });
             this.belongsToMany(models.Category, { through: models.CategoryPost, foreignKey: 'postId', as: 'postCategory' });
-            this.hasMany(models.PostComment, {foreignKey: 'postId', as: "postComment"});
         }
     }
     Post.init(
