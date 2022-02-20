@@ -12,6 +12,18 @@ export default class Subscribe extends Component {
         };
     }
 
+    //fonction de vérification des 2 mots de passe
+    // pwdMatch = (e) => {
+    //     e.preventDefault();
+    //     let pwd1 = document.getElementById("typePasswordX").value;
+    //     let pwd2 = document.getElementById("matchTypePasswordX").value;
+    //     if(pwd1 !== pwd2){
+    //         console.log("Passwords do not match")
+    //     } else {
+    //         return true
+    //     }
+    // }
+
     createAccount = (e) => {
         e.preventDefault();
         const subscribeForm = new FormData(e.currentTarget);
@@ -32,6 +44,8 @@ export default class Subscribe extends Component {
                 if (err.response.status === 409) this.setState({ errorMessage: "L'email a déjà été utilisé !" });
             });
     };
+
+    
 
     render() {
         return (
@@ -62,6 +76,9 @@ export default class Subscribe extends Component {
 
                                 <div className='form-outline mb-4'>
                                     <input type='password' name='password' placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
+                                </div>
+                                <div className='form-outline mb-4'>
+                                    <input type='password' name='password' placeholder='Confirmer le mot de passe' id='matchTypePasswordX-2' className='form-control form-control-lg'/>
                                 </div>
 
                                 <button className='btn btnSubscribe btn-lg btn-block' type='submit'>
