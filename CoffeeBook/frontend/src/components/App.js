@@ -45,11 +45,16 @@ class App extends React.Component {
   // Save the user data in localStorage to keep the user signed in
   // until he/she signed out
   userHasLoggedIn = ({ id, isAdmin, firstName, lastName, profilePicturePath }) => {
-    localStorage.setItem('id', id);
-    localStorage.setItem('isAdmin', isAdmin);
-    localStorage.setItem('firstName', firstName);
-    localStorage.setItem('lastName', lastName);
-    localStorage.setItem('profilePicturePath', profilePicturePath);
+    // localStorage.setItem('id', id);
+    // localStorage.setItem('isAdmin', isAdmin);
+    // localStorage.setItem('firstName', firstName);
+    // localStorage.setItem('lastName', lastName);
+    // localStorage.setItem('profilePicturePath', profilePicturePath);
+    sessionStorage.setItem('id', id);
+    sessionStorage.setItem('isAdmin', isAdmin);
+    sessionStorage.setItem('firstName', firstName);
+    sessionStorage.setItem('lastName', lastName);
+    sessionStorage.setItem('profilePicturePath', profilePicturePath);
     this.setState({ id, isAdmin, firstName, lastName, profilePicturePath });
   };
 
@@ -61,7 +66,8 @@ class App extends React.Component {
         if (response.status === 200) {
           console.log(response);
           console.log('User was successfully logout');
-          localStorage.clear();
+          // localStorage.clear();
+          sessionStorage.clear();
           window.location.reload();
         } else {
           console.log(response);
@@ -77,11 +83,16 @@ class App extends React.Component {
   };
 
   newUserCreated = ({ id, firstName, lastName, isAdmin, profilePicturePath }) => {
-    localStorage.setItem('id', id);
-    localStorage.setItem('isAdmin', isAdmin);
-    localStorage.setItem('firstName', firstName);
-    localStorage.setItem('lastName', lastName);
-    localStorage.setItem('profilePicturePath', profilePicturePath);
+    // localStorage.setItem('id', id);
+    // localStorage.setItem('isAdmin', isAdmin);
+    // localStorage.setItem('firstName', firstName);
+    // localStorage.setItem('lastName', lastName);
+    // localStorage.setItem('profilePicturePath', profilePicturePath);
+    sessionStorage.setItem('id', id);
+    sessionStorage.setItem('isAdmin', isAdmin);
+    sessionStorage.setItem('firstName', firstName);
+    sessionStorage.setItem('lastName', lastName);
+    sessionStorage.setItem('profilePicturePath', profilePicturePath);
     this.setState({ id, firstName, lastName, isAdmin, profilePicturePath, newAccount: false });
   };
 
@@ -102,7 +113,8 @@ class App extends React.Component {
         feedMessage: 'Les dernières actualités',
       });
     } catch (err) {
-      localStorage.clear();
+      // localStorage.clear();
+      sessionStorage.clear();
       window.location.reload();
       console.error('Error getting latest posts : ', err);
     }
@@ -135,7 +147,8 @@ class App extends React.Component {
       const allCategories = await axios.post(`http://localhost:${PORT}/categories`)
       this.setState({allCategories: allCategories.data})
     } catch (error) {
-      localStorage.clear();
+      // localStorage.clear();
+      sessionStorage.clear();
       window.location.reload();
       console.log('Error getting all categories: ', error);
     }
@@ -270,7 +283,8 @@ class App extends React.Component {
       state.postsOffset += 10;
       this.setState(state);
     } catch (error) {
-      localStorage.clear();
+      // localStorage.clear();
+      sessionStorage.clear();
       window.location.reload();
       console.error('Error getting latest posts : ', error);
     }
@@ -280,23 +294,33 @@ class App extends React.Component {
   // archive in localStorage.
   // As there is an user "id" when this component mounts, the Login screen will be called
   componentDidMount() {
-    if (localStorage.getItem('id')) {
-      const isAdmin = localStorage.getItem("isAdmin") === "false" ? false : true;
+    // if (localStorage.getItem('id')) {
+    //   const isAdmin = localStorage.getItem("isAdmin") === "false" ? false : true;
+
+    //   this.setState({
+    //     id: parseInt(localStorage.getItem('id')),
+    //     firstName: localStorage.getItem('firstName'),
+    //     lastName: localStorage.getItem('lastName'),
+    //     isAdmin: isAdmin,
+    //     profilePicturePath: localStorage.getItem('profilePicturePath'),
+    //   });
+    // }
+
+    if (sessionStorage.getItem('id')) {
+      const isAdmin = sessionStorage.getItem("isAdmin") === "false" ? false : true;
 
       this.setState({
-        id: parseInt(localStorage.getItem('id')),
-        firstName: localStorage.getItem('firstName'),
-        lastName: localStorage.getItem('lastName'),
+        id: parseInt(sessionStorage.getItem('id')),
+        firstName: sessionStorage.getItem('firstName'),
+        lastName: sessionStorage.getItem('lastName'),
         isAdmin: isAdmin,
-        profilePicturePath: localStorage.getItem('profilePicturePath'),
+        profilePicturePath: sessionStorage.getItem('profilePicturePath'),
       });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.id !== this.state.id) {
-      // axios.post(`http://localhost:${PORT}/login`)
-      // .then(this.getLatest());
       this.getLatest();
     }
   }
