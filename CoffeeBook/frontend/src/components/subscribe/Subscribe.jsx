@@ -12,26 +12,20 @@ export default class Subscribe extends Component {
         };
     }
 
-    //fonction de vérification des 2 mots de passe
-    // pwdMatch = (e) => {
-    //     e.preventDefault();
-    //     let pwd1 = document.getElementById("typePasswordX").value;
-    //     let pwd2 = document.getElementById("matchTypePasswordX").value;
-    //     if(pwd1 !== pwd2){
-    //         console.log("Passwords do not match")
-    //     } else {
-    //         return true
-    //     }
-    // }
-
     createAccount = (e) => {
         e.preventDefault();
+        const pw1 = document.getElementById("typePasswordX-2").value;
+        const pw2 = document.getElementById("matchTypePasswordX-2").value;
+        if (pw1 !== pw2) {
+            this.setState({ errorMessage: "Les 2 mots de passe ne sont pas identiques !" })
+            return;
+        }
+
         const subscribeForm = new FormData(e.currentTarget);
         const newClient = {};
         for (let [key, value] of subscribeForm) {
             newClient[key] = value;
         }
-        console.log('newClient : ', newClient);
         axios
             .post(`http://localhost:${PORT}/subscribe`, newClient)
             .then((newUser) => {
