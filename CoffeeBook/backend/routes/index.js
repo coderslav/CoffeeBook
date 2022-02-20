@@ -13,7 +13,12 @@ router.post('/latestposts', requireAuthenticate, async (req, res) => {
         JSON.stringify(
             await Post.findAll({
                 order: [['createdAt', 'DESC']],
-                include: ['postCategory', 'postUser', 'postComment'],
+                attributes: { exclude: ['userId'] },
+                include: [
+                    { model: Category, as: 'postCategory', through: { attributes: [] }, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+                    { model: User, as: 'postUser', attributes: { exclude: ['password', 'token', 'createdAt', 'updatedAt'] } },
+                    { model: User, as: 'postUserComment', through: { attributes: { exclude: ['postId', 'userId'] } }, attributes: { exclude: ['password', 'token', 'createdAt', 'updatedAt'] } },
+                ],
                 offset: req.body.offset ? req.body.offset : 0,
                 limit: 10,
             })
@@ -28,7 +33,12 @@ router.post('/bestposts', requireAuthenticate, async (req, res) => {
         JSON.stringify(
             await Post.findAll({
                 order: [['voteAvg', 'DESC']],
-                include: ['postCategory', 'postUser', 'postComment'],
+                attributes: { exclude: ['userId'] },
+                include: [
+                    { model: Category, as: 'postCategory', through: { attributes: [] }, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+                    { model: User, as: 'postUser', attributes: { exclude: ['password', 'token', 'createdAt', 'updatedAt'] } },
+                    { model: User, as: 'postUserComment', through: { attributes: { exclude: ['postId', 'userId'] } }, attributes: { exclude: ['password', 'token', 'createdAt', 'updatedAt'] } },
+                ],
                 offset: req.body.offset ? req.body.offset : 0,
                 limit: 10,
             })
@@ -46,7 +56,12 @@ router.post('/getuserposts', requireAuthenticate, async (req, res) => {
                     model: Post, 
                     as: "userPost", 
                     order: [['createdAt', 'DESC']],
-                    include: ['postCategory', 'postUser', 'postComment'],
+                    attributes: { exclude: ['userId'] },
+                    include: [
+                        { model: Category, as: 'postCategory', through: { attributes: [] }, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+                        { model: User, as: 'postUser', attributes: { exclude: ['password', 'token', 'createdAt', 'updatedAt'] } },
+                        { model: User, as: 'postUserComment', through: { attributes: { exclude: ['postId', 'userId'] } }, attributes: { exclude: ['password', 'token', 'createdAt', 'updatedAt'] } }
+                    ]                          
                 }
             })
         )
@@ -61,7 +76,17 @@ router.post('/getcategoryposts', requireAuthenticate, async (req, res) => {
                 where: {
                     id: req.body.categoryId 
                 },
-                include: { model: Post, as: 'categoryPost', include: ['postCategory', 'postUser', 'postComment'] }
+                include: { 
+                    model: Post, 
+                    as: 'categoryPost', 
+                    order: [['createdAt', 'DESC']],
+                    attributes: { exclude: ['userId'] },
+                    include: [
+                        { model: Category, as: 'postCategory', through: { attributes: [] }, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+                        { model: User, as: 'postUser', attributes: { exclude: ['password', 'token', 'createdAt', 'updatedAt'] } },
+                        { model: User, as: 'postUserComment', through: { attributes: { exclude: ['postId', 'userId'] } }, attributes: { exclude: ['password', 'token', 'createdAt', 'updatedAt'] } }
+                    ] 
+                }
             })
         )
     ); 
