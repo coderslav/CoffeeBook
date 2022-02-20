@@ -14,6 +14,7 @@ async function getLatestsPosts(req) {
     return posts;
 }
 
+// Create post with/without categories associated and get back latest 10 posts with/without offset
 router.post('/create', requireAuthenticate, async (req, res) => {
     console.log(req.body.postContent, req.body.postTitle, req.body.categoryId);
     if (req.body.postContent && req.body.postTitle) {

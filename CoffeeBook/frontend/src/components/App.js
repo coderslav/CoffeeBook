@@ -31,6 +31,7 @@ class App extends React.Component {
       postsOffset: 0,
       news: true,
       best: false,
+      searchByKeyword: false,
       myCat: 0,
       myContact: 0,
       titleKeyword: '',
@@ -164,17 +165,29 @@ class App extends React.Component {
   // The request should return :
   // -
   getPostsWithKeyword = async (e) => {
-    const keyword = e.target.value;
-    const keywordPosts = await axios.post(`http://localhost:${PORT}/getpostswithkeyword`, { keyword });
-    this.setState({
-      posts: keywordPosts.data,
-      news: false,
-      best: false,
-      myCatId: 0,
-      myContactId: 0,
-      titleKeyword: keyword,
-      feedMessage: `Les derniers posts avec ${keyword} en titre`,
-    });
+    const keyword = e.target.value.toString();
+    if (keyword !== '') {
+      const keywordPosts = await axios.post(`http://localhost:${PORT}/postsbykeyword`, { filter: keyword, offset: this.state.postsOffset });
+      this.setState({
+        searchByKeyword: true,
+        postsOffset: 0,
+        titleKeyword: keyword,
+        feedMessage: `Les derniers posts par mot clé: ${keyword}`,
+        news: false,
+        best: false,
+        posts: keywordPosts.data
+      })
+    } else {
+      this.setState({
+        searchByKeyword: false,
+        postsOffset: 0,
+        titleKeyword: '',
+        feedMessage: '',
+        news: false,
+        best: false,
+      })
+      this.getLatest()
+    }
   };
 
   // Display the createPost component
@@ -247,7 +260,7 @@ class App extends React.Component {
 
     if (this.state.myCat) {
       // TODO : need to retrieve the list of post with its categories
-      // refreshedList is filtered for items having the myCat category
+      //refreshedList is filtered for items having the myCat category
     }
 
     if (this.state.myContact) {
@@ -265,7 +278,12 @@ class App extends React.Component {
   addActualites = async (e) => {
     try {
       let state = { ...this.state };
-      const newPosts = await axios.post(`http://localhost:${PORT}/latestposts`, { offset: this.state.postsOffset + 10 });
+      let newPosts;
+      if (this.state.searchByKeyword){
+        newPosts = await axios.post(`http://localhost:${PORT}/postsbykeyword`, { filter: this.state.titleKeyword, offset: this.state.postsOffset + 10 });
+      }else if (this.state.news){
+        newPosts = await axios.post(`http://localhost:${PORT}/latestposts`, { offset: this.state.postsOffset + 10 });
+      }
       state.posts = state.posts.concat(newPosts.data);
       state.postsOffset += 10;
       this.setState(state);
@@ -324,7 +342,7 @@ class App extends React.Component {
               </div>
               <div className='sectionPost'>
                 <Post getPostsWithKeyword={this.getPostsWithKeyword} createNewPost={this.createNewPost} 
-                   createNewPostStatus ={this.state.createNewPost} />
+                   createNewPostStatus ={this.state.createNewPost} searchByKeyword={this.state.searchByKeyword}/>
                 {this.state.createNewPost ? <CreatePost saveNewPost={this.saveNewPost} createNewPost={this.createNewPost} allCategories={this.state.allCategories} getAllCategories={this.getAllCategories} /> : ''}
               </div>
               <div>

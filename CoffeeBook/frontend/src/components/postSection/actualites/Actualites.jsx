@@ -11,9 +11,13 @@ export default function Actualites({ feedMessage, posts, addActualites }) {
             {posts.map((p) => (
                 <PostActu key={p.id} post={p} />
             ))}
-            <IconButton aria-label='add to shopping cart' onClick={addActualites} sx={{ color: 'orange' }}>
+            {posts.length % 10 === 0 ? (
+            <IconButton onClick={addActualites} sx={{ color: 'orange' }}>
                 <AddBoxIcon fontSize='large' />
             </IconButton>
+            ): ''
+            }
+            
         </div>
     );
 }

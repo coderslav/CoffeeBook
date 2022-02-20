@@ -87,12 +87,8 @@ router.post('/filter', requireAuthenticate, async (req, res) => {
     if (req.body.filter && req.session.user.id) {
         const filterCondition = req.body.filter.toString().toLowerCase().replaceAll(' ', '');
         try {
-            let allUsers = await User.findAll({ raw: true });
-            let allUsersOutput = allUsers.map((user) => {
-                const { id, firstName, lastName, isAdmin, profilePicturePath } = user;
-                return { id, firstName, lastName, isAdmin, profilePicturePath };
-            });
-            let filteredUsers = allUsersOutput.filter((user) => {
+            let allUsers = await User.findAll({ attributes: {exclude: ['password', 'token', 'createdAt', 'updatedAt']}, raw: true });
+            let filteredUsers = allUsers.filter((user) => {
                 let nameConcat = (user.firstName + user.lastName).toLowerCase().replaceAll(' ', '');
                 return nameConcat.includes(filterCondition) && user.id !== req.session.user.id;
             });
