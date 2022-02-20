@@ -13,6 +13,10 @@ export default class Login extends Component {
         };
     }
 
+    goHome = () => {
+        window.location.reload()
+    }
+
     loginUser = async (e) => {
         e.preventDefault();
         const loginForm = new FormData(e.currentTarget);
@@ -39,7 +43,7 @@ export default class Login extends Component {
             <div className='container py-5 vh-100 d-flex justify-content-center align-items-center'>
                 <div className='col-12 col-md-8 col-lg-6 col-xl-5'>
                     <header className='text-white text-left d-flex justify-content-start'>
-                        <img src={process.env.PUBLIC_URL + `./images/iconeCB.png`} alt='Logo CoffeeBook' className='logoLogin' />
+                        <img src={process.env.PUBLIC_URL + `./images/iconeCB.png`} alt='Logo CoffeeBook' className='logoLogin' type='button' onClick={this.goHome} />
                         <div>
                             <h1>CoffeeBook</h1>
                             <h4>La réseau sociale du partage de l'actualité</h4>

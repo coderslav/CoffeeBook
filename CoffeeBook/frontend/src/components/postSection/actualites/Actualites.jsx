@@ -12,12 +12,12 @@ export default function Actualites({ feedMessage, posts, addActualites }) {
                 <PostActu key={p.id} post={p} />
             ))}
             {posts.length % 10 === 0 ? (
-            <IconButton onClick={addActualites} sx={{ color: 'orange' }}>
-                <AddBoxIcon fontSize='large' />
-            </IconButton>
-            ): ''
-            }
-            
+                <IconButton onClick={addActualites} sx={{ color: 'orange', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
+                    <AddBoxIcon fontSize='large' />
+                </IconButton>
+            ) : (
+                ''
+            )}
         </div>
     );
 }

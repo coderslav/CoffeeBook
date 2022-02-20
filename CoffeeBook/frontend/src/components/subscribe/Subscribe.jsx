@@ -12,17 +12,10 @@ export default class Subscribe extends Component {
         };
     }
 
-    //fonction de vérification des 2 mots de passe
-    // pwdMatch = (e) => {
-    //     e.preventDefault();
-    //     let pwd1 = document.getElementById("typePasswordX").value;
-    //     let pwd2 = document.getElementById("matchTypePasswordX").value;
-    //     if(pwd1 !== pwd2){
-    //         console.log("Passwords do not match")
-    //     } else {
-    //         return true
-    //     }
-    // }
+    goHome = ()=>{
+        window.location.reload()
+    }
+
 
     createAccount = (e) => {
         e.preventDefault();
@@ -31,28 +24,34 @@ export default class Subscribe extends Component {
         for (let [key, value] of subscribeForm) {
             newClient[key] = value;
         }
-        console.log('newClient : ', newClient);
-        axios
-            .post(`http://localhost:${PORT}/subscribe`, newClient)
-            .then((newUser) => {
-                this.props.newUserCreated({
-                    ...newUser.data.user,
+        console.log(newClient);
+        if (newClient.password === newClient.passwordConfirmation) {
+            delete newClient.passwordConfirmation;
+            console.log(newClient);
+            axios
+                .post(`http://localhost:${PORT}/subscribe`, newClient)
+                .then((newUser) => {
+                    this.props.newUserCreated({
+                        ...newUser.data.user,
+                    });
+                })
+                .catch((err) => {
+                    console.log('subscribe request status code : ', err.response.status);
+                    if (err.response.status === 409) this.setState({ errorMessage: "L'email a déjà été utilisé !" });
                 });
-            })
-            .catch((err) => {
-                console.log('subscribe request status code : ', err.response.status);
-                if (err.response.status === 409) this.setState({ errorMessage: "L'email a déjà été utilisé !" });
-            });
+        } else {
+            [e.target[3].value, e.target[4].value] = ['', ''];
+            this.setState({ errorMessage: 'Les mots de passe ne correspondent pas!' });
+        }
+        console.log('newClient : ', newClient);
     };
-
-    
 
     render() {
         return (
             <div className='container py-5 vh-100 d-flex justify-content-center align-items-center'>
                 <div className='col-12 col-md-8 col-lg-6 col-xl-5'>
                     <header className='text-white text-left d-flex justify-content-start'>
-                        <img src={process.env.PUBLIC_URL + `./images/iconeCB.png`} alt='Logo CoffeeBook' className='logoLogin' />
+                        <img src={process.env.PUBLIC_URL + `./images/iconeCB.png`} alt='Logo CoffeeBook' className='logoLogin' onClick={this.goHome} type='button' />
                         <div>
                             <h1>CoffeeBook</h1>
                             <h4>La réseau sociale du partage de l'actualité</h4>
@@ -78,7 +77,7 @@ export default class Subscribe extends Component {
                                     <input type='password' name='password' placeholder='Mot de passe' id='typePasswordX-2' className='form-control form-control-lg' />
                                 </div>
                                 <div className='form-outline mb-4'>
-                                    <input type='password' name='password' placeholder='Confirmer le mot de passe' id='matchTypePasswordX-2' className='form-control form-control-lg'/>
+                                    <input type='password' name='passwordConfirmation' placeholder='Confirmer le mot de passe' id='matchTypePasswordX-2' className='form-control form-control-lg' />
                                 </div>
 
                                 <button className='btn btnSubscribe btn-lg btn-block' type='submit'>
