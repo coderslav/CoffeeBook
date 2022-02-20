@@ -214,13 +214,13 @@ const migrationCommands = (transaction) => [
         hasAbuse: {
           type: Sequelize.BOOLEAN,
           field: "hasAbuse",
-          defaultValue: false,
+          // defaultValue: false,
         },
         vote: { type: Sequelize.INTEGER, field: "vote" },
         favorited: {
           type: Sequelize.BOOLEAN,
           field: "favorited",
-          defaultValue: false,
+          // defaultValue: false,
         },
         createdAt: {
           type: Sequelize.DATE,

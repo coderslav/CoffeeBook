@@ -4,12 +4,12 @@ import './actualites.css';
 import { IconButton } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
-export default function Actualites({ feedMessage, posts, addActualites }) {
+export default function Actualites({ feedMessage, posts, addActualites, userId }) {
     return (
         <div className='container'>
             <p className='actuTitle'>{feedMessage}</p>
             {posts.map((p) => (
-                <PostActu key={p.id} post={p} />
+                <PostActu key={p.id} post={p} userId={userId}/>
             ))}
             <IconButton aria-label='add to shopping cart' onClick={addActualites} sx={{ color: 'orange' }}>
                 <AddBoxIcon fontSize='large' />

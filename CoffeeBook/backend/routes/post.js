@@ -1,5 +1,5 @@
 const express = require('express');
-const { Post, CategoryPost } = require('../models');
+const { Post, User, Category, CategoryPost } = require('../models');
 
 const router = express.Router();
 const requireAuthenticate = require('../middlewares/requireAuthenticate');

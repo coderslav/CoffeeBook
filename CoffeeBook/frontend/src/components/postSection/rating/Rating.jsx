@@ -4,8 +4,8 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
-export default function BasicRating({ voteAvg }) {
-    const [value, setValue] = React.useState(0);
+export default function BasicRating({ voteAvg, userVote, changeVote, userId, postId }) {
+    const [value, setValue] = React.useState(userVote);
 
     return (
         <Box sx={{ '& > legend': { mt: 2 } }}>
@@ -18,9 +18,12 @@ export default function BasicRating({ voteAvg }) {
                     <Rating
                         name='simple-controlled'
                         value={value}
+                        data-postid={postId}
+                        data-userid={userId}
                         emptyIcon={<StarBorderIcon fontSize='inherit' sx={{ color: 'white' }} />}
                         onChange={(event, newValue) => {
                             setValue(newValue);
+                            changeVote(event, {userId, postId});
                         }}
                     />
                 </div>

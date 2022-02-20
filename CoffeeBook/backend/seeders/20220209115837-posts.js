@@ -8,7 +8,8 @@ let posts = [];
 for (let i = 0; i < 100; i++) {
     let randomAmountOfPosts = getRandomInt(10) + 1;
     for (let j = 0; j < randomAmountOfPosts; j++) {
-        const randomDate = casual.date();
+        let randomDate = casual.date(); 
+        randomDate = randomDate.includes("2-29") ? randomDate.replace("2-29", "2-28") : randomDate;
         posts.push({
             title: casual.title,
             content: casual.text,
