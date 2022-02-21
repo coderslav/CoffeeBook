@@ -13,9 +13,12 @@ export default class Contact extends React.Component {
     super(props)
     this.state = {
       contacts: [],
-      removeContact: false
+      removeContact: false,
+      searchResults: [],
     }
     this.addContact = this.addContact.bind(this);
+    this.searchTimeout = null;
+    this.searchContacts = this.searchContacts.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +62,9 @@ export default class Contact extends React.Component {
       .then(res => {
         console.log("result from add contact : ", res)
         if (res.data.length) {
+          let searchResults = [...this.state.searchResults]
+          searchResults.splice(e.target.dataset.arraytid, 1)
+          this.setState({ searchResults });
           this.setState({ contacts: res.data });
         }
       })
@@ -66,6 +72,36 @@ export default class Contact extends React.Component {
         console.log("Error while saving new contact", err);
       }) 
     }
+  }
+  searchContacts = (e) => {
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
+    if (!e.target.value) 
+      return;
+
+    const contactKeyword = e.target.value;
+    this.searchTimeout = setTimeout(() => {
+      axios.post(`http://localhost:${PORT}/user/filter`, {
+        filter: contactKeyword,
+        userId: this.props.userId
+      })
+        .then(res => {
+          if (res.data.length) {
+            let contactsIdsArray = this.state.contacts.map((contact)=>contact.id)
+            let notInContactList = res.data.filter(contact => {
+              return !contactsIdsArray.includes(contact.id)
+            })
+            this.setState({ searchResults: notInContactList })
+          } else {
+            this.setState({ searchResults: [] })
+          }
+        })
+        .catch(err => console.log("Error while searching contacts by keyword", err))
+    }, 600);
+
+
   }
 
   render() {
@@ -75,10 +111,10 @@ export default class Contact extends React.Component {
         <span className='titreContact'>Contacts</span>
         <div className=''>
           {
-            this.state.contacts != undefined && this.state.contacts.map(contact => {
+            this.state.contacts !== undefined && this.state.contacts.map(contact => {
               return (
                 <div key={contact.id} className='blocContacts d-flex justify-content-between align-items-center' >
-                  <div className="contact d-flex align-items-center" data-contactid={contact.id} onClick={this.props.getContactPosts}>
+                  <div className="contact d-flex align-items-center" type='button' data-contactid={contact.id} onClick={this.props.getContactPosts}>
                     <img src={contact.profilePicturePath} alt={`${contact.firstName} ${contact.lastName}`} data-contactid={contact.id}/>
                     <p data-contactid={contact.id}>{contact.firstName} {contact.lastName}</p>
                   </div>
@@ -101,7 +137,10 @@ export default class Contact extends React.Component {
           title={"Chercher un contact"} 
           placeholder={"contact"} 
           userId={this.props.userId} 
-          addContact={this.addContact} />
+          addContact={this.addContact}
+          searchContacts={this.searchContacts}
+          searchResults={this.state.searchResults}
+          />
         </div>
       </div>
     )

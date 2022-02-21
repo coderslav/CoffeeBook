@@ -2,64 +2,24 @@ import React from 'react';
 import "../category/category.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-import axios from 'axios';
-axios.defaults.withCredentials = true;
-
-const PORT = 5000;
 
 export default class SearchContact extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      searchResults: []
-    }
-    this.searchTimeout = null;
-    this.searchContacts = this.searchContacts.bind(this);
-  }
-
-  searchContacts = (e) => {
-    if (this.searchTimeout) {
-      clearTimeout(this.searchTimeout);
-    }
-
-    if (!e.target.value) 
-      return;
-
-    const contactKeyword = e.target.value;
-    this.searchTimeout = setTimeout(() => {
-      axios.post(`http://localhost:${PORT}/user/filter`, {
-        filter: contactKeyword,
-        userId: this.props.userId
-      })
-        .then(res => {
-          if (res.data.length) {
-            this.setState({ searchResults: res.data })
-          } else {
-            this.setState({ searchResults: [] })
-          }
-        })
-        .catch(err => console.log("Error while searching contacts by keyword", err))
-    }, 600);
-
-
-  }
-
   render() {
     return (
       <div className='container-fluid searchContact'>
         <span>{this.props.title}</span>
         <input 
           className='container-fluid' type="text" placeholder={this.props.placeholder} 
-          onChange={this.searchContacts}/>
+          onChange={this.props.searchContacts}/>
         {
-          this.state.searchResults.length
+          this.props.searchResults.length
             ?
-            this.state.searchResults.map(contact => {
+            this.props.searchResults.map((contact, id) => {
               return (
                 <div className='listContactCategory d-flex ms-3' 
                       key={contact.id}>
                   <p>#{contact.firstName} {contact.lastName}</p>
-                  <button className='ms-3' data-contactid={contact.id} onClick={this.props.addContact}>
+                  <button className='ms-3' data-contactid={contact.id} data-arrayid={id} onClick={this.props.addContact}>
                     {/* <AiOutlinePlusCircle /> */} +
                   </button>
                 </div>
